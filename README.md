@@ -7,7 +7,8 @@ dependencias, sin framework. Implementado a partir del handoff de Claude Design
 ```
 index.html          Estructura y contenido
 styles.css          Todos los estilos
-main.js             Menú mobile, filtro del portfolio, fondo WebGL del hero
+main.js             Menú mobile, filtro del portfolio, track del proceso,
+                    fondo WebGL del hero
 assets/
   tat-sobre.webp    Retrato de la sección "Sobre mí"
   tat-hero.webp     Retrato alternativo (sin usar — quedó del diseño original)
@@ -48,6 +49,25 @@ archivos. Instrucciones en [`assets/reels/README.md`](assets/reels/README.md).
   de escritorio y menú hamburguesa.
 - **Filtro del portfolio:** el `<section>` guarda la categoría activa en
   `data-cat` y el CSS oculta los grupos que no corresponden.
+- **Proceso creativo:** vive **dentro de "Lo que hago"** (`#servicios`), entre
+  las tarjetas de servicio y los formatos. Antes era una sección aparte y la
+  fila "Producción" de `#servicios` repetía 5 de sus 7 pasos; al fusionarlas se
+  eliminó esa fila y la sección `#proceso`. El `id` se conserva en el riel para
+  que el link del nav siga funcionando.
+
+  Los 7 pasos son un riel horizontal con íconos que se dibujan al entrar. Un
+  mismo markup, tres modos que elige el JS al medir: `pin` (el contenedor se
+  estira lo que sobra del riel y la banda queda `sticky` a media altura, así el
+  scroll vertical la desplaza de lado), `drag` (carrusel con `scroll-snap` — es
+  lo que queda en mobile, sin JS o con `prefers-reduced-motion`) y `static` (los
+  7 entran juntos en pantalla: se ocultan la barra y el contador). La banda no
+  tiene alto fijo: mide lo que mida su contenido y el JS calcula el `top` que la
+  centra, así una fuente de fallback o un texto más grande no recortan nada.
+  Los íconos son de [Lucide](https://lucide.dev) (ISC), pegados inline y
+  animados con `pathLength="1"` + `stroke-dashoffset`, sin librería ni runtime.
+- **Formatos:** los 12 chips están agrupados por objetivo de la marca
+  ("para que te descubran", "para que entiendan el producto"…) en vez de por
+  jerga de creadora. No se sacó ni se agregó ningún formato.
 - **Datos de contacto:** el mail (`tatuabril73@gmail.com`) y el usuario de
   Instagram (`@tatiiorquera`) están escritos en `index.html`. Para cambiarlos,
   buscá y reemplazá ahí.

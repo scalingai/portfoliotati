@@ -31,8 +31,10 @@
     <nav class="nav__links" aria-label="Navegación principal">
       <a href="#sobre">Sobre mí</a>
       <a href="#servicios">Lo que hago</a>
-      <a href="#portfolio">Portfolio</a>
+      <!-- Proceso vive dentro de "Lo que hago"; el link salta al riel. Va antes
+           de Portfolio para respetar el orden real de la pagina. -->
       <a href="#proceso">Proceso</a>
+      <a href="#portfolio">Portfolio</a>
       <a href="#resultados">Resultados</a>
     </nav>
 
@@ -46,8 +48,8 @@
   <div class="nav__panel" id="nav-panel" hidden>
     <a href="#sobre">Sobre mí</a>
     <a href="#servicios">Lo que hago</a>
-    <a href="#portfolio">Portfolio</a>
     <a href="#proceso">Proceso</a>
+    <a href="#portfolio">Portfolio</a>
     <a href="#resultados">Resultados</a>
     <a class="nav__panel-cta" href="mailto:tatuabril73@gmail.com">Trabajemos juntos</a>
   </div>
@@ -182,33 +184,166 @@
         <p class="card__text">Integro los productos dentro de situaciones cotidianas.</p>
       </article>
     </div>
+  </div>
 
-    <div class="listrow listrow--first">
-      <h3 class="listrow__label">Producción</h3>
-      <div class="steps">
-        <span>Idea</span><i>/</i>
-        <span>Guion</span><i>/</i>
-        <span>Grabación</span><i>/</i>
-        <span>Edición</span><i>/</i>
-        <span>Entrega</span>
+  <!-- ===== PROCESO =====
+       Vive dentro de "Lo que hago" porque la fila "Producción" que estaba aca
+       (Idea / Guion / Grabación / Edición / Entrega) era un subconjunto exacto
+       de estos 7 pasos: le faltaban el 01 y el 02, justo los que separan a una
+       creadora de una editora de video. Sale del .wrap para poder sangrar hasta
+       el borde derecho; el id se conserva para que el link del nav siga yendo
+       a algun lado.
+
+       Track horizontal: el JS mide el ancho del riel, estira el contenedor esa
+       misma cantidad y fija la banda en pantalla, asi el scroll vertical mueve
+       los pasos de lado. Sin JS, en mobile o con movimiento reducido nunca se
+       agrega .proceso--pinned y queda como carrusel con scroll-snap, que es el
+       mismo markup: no hay una version "rota" del bloque.
+       Iconos: Lucide (lucide.dev, ISC), inline. El pathLength="1" normaliza
+       cada trazo a longitud 1 para dibujarlo con dashoffset sin medirlo. -->
+  <div class="proceso" id="proceso">
+    <div class="proceso__stage">
+      <div class="proceso__grid">
+        <div class="proceso__aside">
+          <h3 class="listrow__label">Proceso</h3>
+          <!-- El JS antepone "NN / ". Sin JS, o si los 7 entran juntos en
+               pantalla, queda un "07 pasos" a secas. -->
+          <span class="proceso__meta"><span class="proceso__count"></span>07 pasos</span>
+        </div>
+
+        <div class="proceso__main">
+          <div class="proceso__viewport">
+            <ol class="proceso__track">
+              <li class="pstep">
+                <span class="pstep__n">01</span>
+                <svg class="pstep__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path pathLength="1" d="M3 7V5a2 2 0 0 1 2-2h2"/>
+                  <path pathLength="1" d="M17 3h2a2 2 0 0 1 2 2v2"/>
+                  <path pathLength="1" d="M21 17v2a2 2 0 0 1-2 2h-2"/>
+                  <path pathLength="1" d="M7 21H5a2 2 0 0 1-2-2v-2"/>
+                  <circle pathLength="1" cx="11.5" cy="11.5" r="3"/>
+                  <path pathLength="1" d="m16.5 16.5-2.9-2.9"/>
+                </svg>
+                <h4 class="pstep__t">Analizo la marca.</h4>
+                <p class="pstep__d">Leo tu feed, tu tono y lo que está haciendo tu competencia. El video suena a tu marca, no a un molde.</p>
+              </li>
+
+              <li class="pstep">
+                <span class="pstep__n">02</span>
+                <svg class="pstep__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path pathLength="1" d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0"/>
+                  <path pathLength="1" d="m7.5 4.27 9 5.15"/>
+                  <path pathLength="1" d="m3.29 7 8.71 5 8.71-5"/>
+                  <path pathLength="1" d="M12 22V12"/>
+                  <circle pathLength="1" cx="18.5" cy="15.5" r="2.5"/>
+                  <path pathLength="1" d="M20.27 17.27 22 19"/>
+                </svg>
+                <h4 class="pstep__t">Investigo el producto.</h4>
+                <p class="pstep__d">Lo pruebo antes de filmarlo. Lo que se escucha en cámara es una opinión real, y eso se nota del otro lado.</p>
+              </li>
+
+              <li class="pstep">
+                <span class="pstep__n">03</span>
+                <svg class="pstep__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path pathLength="1" d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/>
+                  <path pathLength="1" d="M9 18h6"/>
+                  <path pathLength="1" d="M10 22h4"/>
+                </svg>
+                <h4 class="pstep__t">Desarrollo una idea.</h4>
+                <p class="pstep__d">Pensada para frenar el pulgar en los primeros tres segundos. Sin gancho no hay alcance, por más lindo que esté el resto.</p>
+              </li>
+
+              <li class="pstep">
+                <span class="pstep__n">04</span>
+                <svg class="pstep__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path pathLength="1" d="M12 20h9"/>
+                  <path pathLength="1" d="M16.4 3.6a1 1 0 0 1 3 3L7.4 18.6a2 2 0 0 1-.9.5l-2.9.9a.5.5 0 0 1-.6-.6l.8-2.9a2 2 0 0 1 .5-.9z"/>
+                </svg>
+                <h4 class="pstep__t">Creo un guion.</h4>
+                <p class="pstep__d">Lo aprobás antes de que grabe. Cero sorpresas y cero regrabaciones por un mensaje que no era.</p>
+              </li>
+
+              <li class="pstep">
+                <span class="pstep__n">05</span>
+                <svg class="pstep__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path pathLength="1" d="m16 13 5.2 3.5a.5.5 0 0 0 .8-.4V7.9a.5.5 0 0 0-.8-.5L16 10.5"/>
+                  <rect pathLength="1" x="2" y="6" width="14" height="12" rx="2"/>
+                </svg>
+                <h4 class="pstep__t">Grabo.</h4>
+                <p class="pstep__d">Luz natural y escenarios de todos los días. Parece una recomendación de una amiga, no una publicidad.</p>
+              </li>
+
+              <li class="pstep">
+                <span class="pstep__n">06</span>
+                <svg class="pstep__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <circle pathLength="1" cx="6" cy="6" r="3"/>
+                  <circle pathLength="1" cx="6" cy="18" r="3"/>
+                  <path pathLength="1" d="M8.12 8.12 12 12"/>
+                  <path pathLength="1" d="M20 4 8.12 15.88"/>
+                  <path pathLength="1" d="M14.8 14.8 20 20"/>
+                </svg>
+                <h4 class="pstep__t">Edito.</h4>
+                <p class="pstep__d">Ritmo, subtítulos y placas. Se entiende igual de bien con el sonido apagado, que es como lo mira la mayoría.</p>
+              </li>
+
+              <li class="pstep">
+                <span class="pstep__n">07</span>
+                <svg class="pstep__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path pathLength="1" d="M14.5 21.7a.5.5 0 0 0 .95-.02l6.5-19a.5.5 0 0 0-.64-.64l-19 6.5a.5.5 0 0 0-.02.94l7.93 3.18a2 2 0 0 1 1.11 1.11z"/>
+                  <path pathLength="1" d="M21.85 2.15 10.91 13.09"/>
+                </svg>
+                <h4 class="pstep__t">Entrego contenido listo para publicar.</h4>
+                <p class="pstep__d">En vertical y con los cortes hechos. Lo subís el mismo día, sin pasar por diseño ni esperar a nadie.</p>
+              </li>
+            </ol>
+          </div>
+
+          <div class="proceso__bar"><span class="proceso__bar-fill"></span></div>
+        </div>
       </div>
     </div>
+  </div>
 
+  <div class="wrap">
     <div class="listrow">
       <h3 class="listrow__label">Formatos</h3>
-      <div class="chips">
-        <span class="chip chip--on">Reel UGC</span>
-        <span class="chip">TikTok UGC</span>
-        <span class="chip">Fotos lifestyle</span>
-        <span class="chip">Unboxing</span>
-        <span class="chip">Voice Over</span>
-        <span class="chip">Testimonio</span>
-        <span class="chip">GRWM</span>
-        <span class="chip">Shopping vlog</span>
-        <span class="chip">Storytelling</span>
-        <span class="chip">Tutorial</span>
-        <span class="chip">ASMR</span>
-        <span class="chip">Ads</span>
+      <!-- Agrupados por lo que busca la marca y no por jerga de creadora:
+           "GRWM" no le dice nada a quien contrata, "para que entiendan el
+           producto" si. Los 12 formatos siguen estando, solo cambia el orden
+           en que se leen. -->
+      <div class="chipgroups">
+        <div class="chipgroup">
+          <h4 class="chipgroup__label">Para que te descubran</h4>
+          <div class="chips">
+            <span class="chip chip--on">Reel UGC</span>
+            <span class="chip">TikTok UGC</span>
+            <span class="chip">Storytelling</span>
+            <span class="chip">ASMR</span>
+          </div>
+        </div>
+        <div class="chipgroup">
+          <h4 class="chipgroup__label">Para que entiendan el producto</h4>
+          <div class="chips">
+            <span class="chip">Unboxing</span>
+            <span class="chip">Tutorial</span>
+            <span class="chip">GRWM</span>
+            <span class="chip">Shopping vlog</span>
+          </div>
+        </div>
+        <div class="chipgroup">
+          <h4 class="chipgroup__label">Para que confíen</h4>
+          <div class="chips">
+            <span class="chip">Testimonio</span>
+            <span class="chip">Voice Over</span>
+            <span class="chip">Fotos lifestyle</span>
+          </div>
+        </div>
+        <div class="chipgroup">
+          <h4 class="chipgroup__label">Para pautar</h4>
+          <div class="chips">
+            <span class="chip">Ads</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -297,25 +432,6 @@
         </a>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ================= PROCESO ================= -->
-<section class="proceso" id="proceso">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2 class="sec-head__title">Mi proceso creativo</h2>
-      <span class="sec-head__meta">07 pasos</span>
-    </div>
-    <ol class="steplist">
-      <li><span class="steplist__n">01</span><span class="steplist__t">Analizo la marca.</span></li>
-      <li><span class="steplist__n">02</span><span class="steplist__t">Investigo el producto.</span></li>
-      <li><span class="steplist__n">03</span><span class="steplist__t">Desarrollo una idea.</span></li>
-      <li><span class="steplist__n">04</span><span class="steplist__t">Creo un guion.</span></li>
-      <li><span class="steplist__n">05</span><span class="steplist__t">Grabo.</span></li>
-      <li><span class="steplist__n">06</span><span class="steplist__t">Edito.</span></li>
-      <li><span class="steplist__n">07</span><span class="steplist__t">Entrego contenido listo para publicar.</span></li>
-    </ol>
   </div>
 </section>
 

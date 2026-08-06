@@ -113,11 +113,177 @@
     stagger('.card', 70);
     stagger('.group__head');
     stagger('.reel', 70);
-    stagger('.steplist li', 45);
     stagger('.metrics__cell', 70);
     stagger('.why__title');
     stagger('.why__list');
   }
+
+  /* ----------------------------------------------- proceso: track horizontal */
+
+  // Dos modos sobre el mismo markup:
+  //   pin       — la seccion se estira lo que mide el sobrante del riel, el
+  //               escenario queda sticky y el scroll vertical se traduce en un
+  //               translateX del track.
+  //   carrusel  — el viewport scrollea a mano (mobile, movimiento reducido, o
+  //               cuando el riel entra entero y no hay nada que desplazar).
+  // Lo unico que cambia entre los dos es de donde sale la posicion X; el
+  // pintado (paso activo, barra, dibujo del icono) es el mismo codigo.
+  (function () {
+    var proceso = document.querySelector('.proceso');
+    if (!proceso) return;
+
+    var stage = proceso.querySelector('.proceso__stage');
+    var viewport = proceso.querySelector('.proceso__viewport');
+    var track = proceso.querySelector('.proceso__track');
+    var steps = Array.prototype.slice.call(proceso.querySelectorAll('.pstep'));
+    var bar = proceso.querySelector('.proceso__bar');
+    var fill = proceso.querySelector('.proceso__bar-fill');
+    var count = proceso.querySelector('.proceso__count');
+
+    if (!stage || !viewport || !track || !steps.length) return;
+
+    document.documentElement.classList.add('js-proceso');
+
+    var mode = '';    // pin | drag | static
+    var stickyTop = 0;
+    var travel = 0;   // sobrante del riel: lo mismo que se desplaza en los dos modos
+    var ticking = false;
+    // Posicion de cada paso dentro del riel, medida una sola vez por layout.
+    // No sirve offsetLeft: su offsetParent cambia cuando el stage pasa a
+    // sticky, y con el las coordenadas.
+    var offsets = [];
+
+    function measure() {
+      // Borde izquierdo del riel en x = 0, sin importar donde este scrolleado.
+      var base = viewport.getBoundingClientRect().left - viewport.scrollLeft;
+
+      offsets = steps.map(function (step) {
+        return step.getBoundingClientRect().left - base;
+      });
+    }
+
+    function paint(x) {
+      var p = travel > 0 ? Math.min(1, Math.max(0, x / travel)) : 0;
+      var w = viewport.clientWidth;
+
+      // El paso activo sale del progreso, no de cual quedo mas centrado: en
+      // desktop entran cuatro tarjetas y media, asi que "la del centro" daria
+      // 03 con la primera todavia en pantalla y el contador nunca llegaria a
+      // 07. Atado al progreso, el numero, la barra y el resaltado coinciden.
+      var active = Math.round(p * (steps.length - 1));
+
+      steps.forEach(function (step, i) {
+        // Se dibuja apenas asoma y no se vuelve a ocultar: re-animar algo ya
+        // leido al scrollear para arriba marea (mismo criterio que el reveal).
+        if (offsets[i] - x < w - 40) step.classList.add('is-drawn');
+        step.classList.toggle('is-active', i === active);
+      });
+
+      if (fill) fill.style.width = (p * 100) + '%';
+      if (count) count.textContent = ('0' + (active + 1)).slice(-2) + ' / ';
+    }
+
+    function onPinScroll() {
+      // La banda no se clava en top: 0 sino a media altura, asi que el pin
+      // arranca cuando el contenedor llega a ese offset, no al borde.
+      var top = proceso.getBoundingClientRect().top - stickyTop;
+      var range = proceso.offsetHeight - stage.offsetHeight;
+      var p = range > 0 ? Math.min(1, Math.max(0, -top / range)) : 0;
+      var x = p * travel;
+
+      track.style.transform = 'translate3d(' + (-x) + 'px,0,0)';
+      paint(x);
+    }
+
+    function request(fn) {
+      return function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () { ticking = false; fn(); });
+      };
+    }
+
+    var onScroll = request(onPinScroll);
+    var onDrag = request(function () { paint(viewport.scrollLeft); });
+
+    function layout() {
+      // Se mide siempre en modo carrusel: ahi el sobrante del riel es
+      // literalmente el scroll horizontal disponible, sin hacer cuentas.
+      proceso.classList.remove('proceso--pinned');
+      proceso.style.height = '';
+      track.style.transform = '';
+
+      proceso.style.scrollMarginTop = '';
+      stage.style.top = '';
+
+      measure();
+      travel = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+
+      // Alto natural de la banda, medido sin pin (es el mismo con o sin: lo
+      // define el contenido). Solo se fija si entra en pantalla con aire.
+      var stageH = stage.offsetHeight;
+
+      // static: los 7 pasos entran juntos (pantalla muy ancha, zoom out). No
+      // hay recorrido que indicar, asi que el bloque se comporta como una
+      // grilla comun y la barra y el contador sobran.
+      var next = travel <= 0 ? 'static'
+        : (!reduceMotion && travel > 60 && window.innerWidth > 860 &&
+           stageH + 48 <= window.innerHeight)
+          ? 'pin'
+          : 'drag';
+
+      if (next === 'pin') {
+        proceso.classList.add('proceso--pinned');
+        stickyTop = Math.round((window.innerHeight - stageH) / 2);
+        stage.style.top = stickyTop + 'px';
+        // Que el link del nav aterrice justo donde el pin arranca, o el riel
+        // ya empezaria corrido.
+        proceso.style.scrollMarginTop = stickyTop + 'px';
+        proceso.style.height = (stageH + travel) + 'px';
+        viewport.scrollLeft = 0;
+      }
+
+      if (next !== mode) {
+        window.removeEventListener('scroll', onScroll);
+        viewport.removeEventListener('scroll', onDrag);
+
+        if (next === 'pin') window.addEventListener('scroll', onScroll, { passive: true });
+        if (next === 'drag') viewport.addEventListener('scroll', onDrag, { passive: true });
+
+        // Enfocable solo cuando scrollea de verdad: un contenedor que no se
+        // mueve es una parada muerta en el recorrido de teclado.
+        if (next === 'drag') {
+          viewport.setAttribute('tabindex', '0');
+          viewport.setAttribute('role', 'group');
+          viewport.setAttribute('aria-label', 'Pasos del proceso creativo');
+        } else {
+          viewport.removeAttribute('tabindex');
+          viewport.removeAttribute('role');
+          viewport.removeAttribute('aria-label');
+        }
+
+        if (bar) bar.hidden = next === 'static';
+        mode = next;
+      }
+
+      if (next === 'static') {
+        steps.forEach(function (step) {
+          step.classList.add('is-drawn');
+          step.classList.remove('is-active');
+        });
+        if (count) count.textContent = '';
+      } else if (next === 'pin') {
+        onPinScroll();
+      } else {
+        paint(viewport.scrollLeft);
+      }
+    }
+
+    layout();
+    window.addEventListener('resize', layout);
+    // Las webfonts cambian el ancho de los titulos y con eso el del riel.
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+  })();
 
   /* ------------------------------------------------------- hero backdrop */
 

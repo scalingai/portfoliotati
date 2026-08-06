@@ -80,8 +80,7 @@ button { font-family: inherit; }
 .ticker__track span,
 .sobre__hi,
 .sec-head__title,
-.steps span,
-.steplist__n,
+.pstep__n,
 .bigstats__v,
 .why__title,
 .footer__cta {
@@ -631,6 +630,10 @@ button { font-family: inherit; }
    ========================================================================== */
 
 .servicios {
+  /* La columna del label la comparten .listrow y el grid del proceso, para que
+     "PROCESO" y "FORMATOS" caigan en la misma vertical. */
+  --label-col: 180px;
+  --label-gap: 48px;
   padding: var(--section-y) var(--gutter);
   scroll-margin-top: 88px;
 }
@@ -669,14 +672,12 @@ button { font-family: inherit; }
 .listrow {
   display: flex;
   flex-wrap: wrap;
-  gap: 24px 48px;
+  gap: 24px var(--label-gap);
   margin-top: clamp(36px, 5vw, 56px);
 }
 
-.listrow--first { margin-top: clamp(48px, 7vw, 72px); }
-
 .listrow__label {
-  flex: 0 0 180px;
+  flex: 0 0 var(--label-col);
   margin: 0;
   font: 400 11px/1 var(--sans);
   letter-spacing: .16em;
@@ -684,22 +685,19 @@ button { font-family: inherit; }
   color: var(--grey-6);
 }
 
-.steps {
+/* Los formatos van agrupados por objetivo de la marca. El label del grupo va en
+   caja baja y gris medio: si fuera otra micro-mayuscula competiria con
+   "FORMATOS" y se perderia cual manda. */
+.chipgroups {
   flex: 1 1 320px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px 18px;
+  display: grid;
+  gap: clamp(18px, 2.4vw, 26px);
 }
 
-.steps span {
-  font-size: clamp(17px, 2.4vw, 22px);
-  line-height: 1;
-}
-
-.steps i {
-  font-style: normal;
-  color: var(--grey-9);
+.chipgroup__label {
+  margin: 0 0 12px;
+  font: 400 14px/1.3 var(--sans);
+  color: var(--grey-4);
 }
 
 .chips {
@@ -866,43 +864,208 @@ button { font-family: inherit; }
    ========================================================================== */
 
 .proceso {
-  padding: 0 var(--gutter) var(--section-y);
+  --pstep-w: clamp(232px, 23vw, 296px);
+  --pstep-gap: clamp(12px, 1.4vw, 20px);
+
+  /* Sangra hasta los dos bordes anulando el padding de .servicios; el riel
+     necesita el ancho completo para poder salirse por la derecha. */
+  margin: clamp(48px, 7vw, 72px) calc(var(--gutter) * -1) 0;
   scroll-margin-top: 88px;
 }
 
-.proceso .sec-head__title {
-  font-size: clamp(26px, 4.2vw, 44px);
-  line-height: 1.05;
+/* Columna izquierda del resto de la seccion: mismo ancho y mismo gap que
+   .listrow, para que "PROCESO" caiga en la misma vertical que "FORMATOS". */
+.proceso__grid {
+  display: grid;
+  grid-template-columns: var(--label-col) 1fr;
+  column-gap: var(--label-gap);
+  /* Replica el borde izquierdo de .wrap: gutter, o el centrado del wrap
+     cuando la pantalla supera los 1280. */
+  padding-left: max(var(--gutter), calc((100% - var(--wrap)) / 2));
 }
 
-.steplist {
-  list-style: none;
+.proceso__aside {
+  align-self: start;
+  padding-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.proceso__meta {
+  font: 400 11px/1 var(--sans);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--grey-6);
+}
+
+.proceso__count { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* min-width: 0 o el riel, al desbordar, estira la columna del grid. */
+.proceso__main {
+  min-width: 0;
+  display: grid;
+  gap: clamp(14px, 1.8vw, 22px);
+}
+
+/* Modo carrusel (mobile, sin JS, movimiento reducido): el propio viewport
+   scrollea a mano. En modo pin el JS apaga el scroll y mueve el track. */
+.proceso__viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.proceso__viewport::-webkit-scrollbar { display: none; }
+
+.proceso__track {
+  display: flex;
+  align-items: stretch;
+  gap: var(--pstep-gap);
   margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 0;
+  /* El aire de entrada ya lo da la columna del label; aca solo queda el margen
+     vertical para que el hover de las tarjetas no se recorte. */
+  padding: 6px 0;
+  list-style: none;
 }
 
-.steplist li {
-  display: grid;
-  grid-template-columns: clamp(48px, 8vw, 80px) 1fr;
-  gap: clamp(14px, 2vw, 24px);
-  align-items: baseline;
-  padding: 22px 0;
-  border-bottom: 1px solid var(--line);
-  transition: background .18s ease;
+/* Aire de salida. Ni el padding derecho del riel ni el margen del ultimo paso
+   entran en scrollWidth (comprobado); un item flex de verdad si. Como es un
+   pseudo-elemento no aparece en el arbol de accesibilidad: la lista sigue
+   teniendo 7 pasos. El gap ya aporta su parte, por eso se descuenta. */
+.proceso__track::after {
+  content: '';
+  flex: 0 0 max(0px, calc(var(--gutter) - var(--pstep-gap)));
 }
 
-.steplist li:hover { background: var(--hover-bg); }
+.pstep {
+  flex: 0 0 var(--pstep-w);
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: clamp(230px, 34vh, 340px);
+  padding: clamp(18px, 2vw, 26px);
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  background: #fff;
+  transition:
+    border-color .4s var(--ease-out),
+    background .4s var(--ease-out),
+    transform .4s var(--ease-out);
+}
 
-.steplist__n {
-  font-size: clamp(24px, 4vw, 34px);
+.pstep__n {
+  font-size: clamp(26px, 3vw, 38px);
   line-height: 1;
   color: var(--grey-9);
+  transition: color .4s var(--ease-out);
 }
 
-.steplist__t {
-  font: 400 clamp(17px, 2.4vw, 20px)/1.4 var(--sans);
+.pstep__icon {
+  width: clamp(32px, 3.2vw, 40px);
+  height: clamp(32px, 3.2vw, 40px);
+  margin-top: auto;
+  color: var(--grey-7);
+  transition: color .4s var(--ease-out);
+}
+
+.pstep__t {
+  margin: 14px 0 0;
+  font: 500 clamp(16px, 1.4vw, 19px)/1.3 var(--sans);
+  letter-spacing: -.01em;
+}
+
+.pstep__d {
+  margin: 8px 0 0;
+  font: 400 14px/1.55 var(--sans);
+  color: var(--grey-5);
+}
+
+/* El paso que esta en foco pasa a tinta plena; el resto queda en gris. */
+.pstep.is-active {
+  border-color: var(--ink);
+  background: var(--hover-bg);
+}
+
+.pstep.is-active .pstep__n,
+.pstep.is-active .pstep__icon { color: var(--ink); }
+
+.pstep:hover { transform: translateY(-3px); }
+
+/* Dibujo del trazo. Igual que .js-reveal: el estado oculto solo existe si el
+   JS esta vivo para revertirlo — sin JS los iconos se ven enteros. */
+.js-proceso .pstep__icon > * {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.js-proceso .pstep.is-drawn .pstep__icon > * {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset .8s var(--ease-out);
+}
+
+.js-proceso .pstep.is-drawn .pstep__icon > *:nth-child(2) { transition-delay: .07s; }
+.js-proceso .pstep.is-drawn .pstep__icon > *:nth-child(3) { transition-delay: .14s; }
+.js-proceso .pstep.is-drawn .pstep__icon > *:nth-child(4) { transition-delay: .21s; }
+.js-proceso .pstep.is-drawn .pstep__icon > *:nth-child(5) { transition-delay: .28s; }
+.js-proceso .pstep.is-drawn .pstep__icon > *:nth-child(6) { transition-delay: .35s; }
+
+.proceso__bar {
+  position: relative;
+  height: 2px;
+  background: var(--line);
+}
+
+.proceso__bar-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: var(--ink);
+  transition: width .2s linear;
+}
+
+/* --- modo pin: lo activa el JS cuando hay ancho de sobra y no hay reduce --- */
+
+/* La banda se clava a media altura, no arriba de todo: asi las tarjetas de
+   servicio salen por arriba y los formatos entran por abajo mientras el riel
+   corre. El JS le da al contenedor el alto que sobra del riel, y ese sobrante
+   es exactamente el recorrido del sticky.
+
+   Sin alto fijo a proposito: la banda mide lo que mida su contenido y el JS
+   calcula el `top` que la centra. Con un alto en vh, una fuente de fallback o
+   un tamano de texto mas grande recortaban la tarjeta. */
+.proceso--pinned .proceso__stage { position: sticky; }
+
+.proceso--pinned .proceso__viewport {
+  overflow: hidden;
+  scroll-snap-type: none;
+}
+
+.proceso--pinned .proceso__track { will-change: transform; }
+.proceso--pinned .pstep { scroll-snap-align: none; }
+
+@media (max-width: 860px) {
+  /* Igual que .listrow, el label se va arriba y el riel toma el ancho entero.
+     Tarjeta casi a pantalla completa: se ve la que sigue asomando y eso es
+     todo el aviso de que el bloque se arrastra. */
+  .proceso { --pstep-w: min(76vw, 300px); }
+
+  .proceso__grid {
+    grid-template-columns: 1fr;
+    row-gap: 18px;
+  }
+
+  .proceso__aside {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-top: 0;
+    padding-right: var(--gutter);
+  }
+
+  .pstep { min-height: 250px; }
 }
 
 /* ==========================================================================
