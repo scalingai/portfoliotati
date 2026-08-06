@@ -70,6 +70,55 @@
     img.addEventListener('error', markEmpty);
   });
 
+  /* -------------------------------------------------------- scroll reveal */
+
+  // Cada bloque entra con un fade y un desplazamiento corto al asomar en
+  // pantalla. El estado inicial se marca desde acá y no desde el HTML: si no
+  // hay IntersectionObserver o el sistema pide menos movimiento, no se aplica
+  // nada y la pagina queda visible completa.
+  if ('IntersectionObserver' in window && !reduceMotion) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-in');
+        // Se revela una sola vez: volver a ocultar al scrollear para arriba
+        // marea y obliga a re-animar contenido ya leido.
+        io.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -10% 0px' });
+
+    // El escalonado se cuenta por contenedor, no sobre el total: si fuera
+    // global, el ultimo reel del tercer grupo arrancaria medio segundo tarde.
+    var stagger = function (selector, step) {
+      var scopes = new Map();
+
+      document.querySelectorAll(selector).forEach(function (el) {
+        el.setAttribute('data-reveal', '');
+
+        if (step) {
+          var i = scopes.get(el.parentElement) || 0;
+          scopes.set(el.parentElement, i + 1);
+          el.style.setProperty('--reveal-delay', (i * step) + 'ms');
+        }
+
+        io.observe(el);
+      });
+    };
+
+    document.documentElement.classList.add('js-reveal');
+
+    stagger('.sec-head');
+    stagger('.sobre__aside');
+    stagger('.sobre__body > *', 40);
+    stagger('.card', 70);
+    stagger('.group__head');
+    stagger('.reel', 70);
+    stagger('.steplist li', 45);
+    stagger('.metrics__cell', 70);
+    stagger('.why__title');
+    stagger('.why__list');
+  }
+
   /* ------------------------------------------------------- hero backdrop */
 
   var hero = document.querySelector('.hero');

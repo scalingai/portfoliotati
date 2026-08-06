@@ -30,6 +30,9 @@
   --gutter: clamp(20px, 5vw, 32px);
   --section-y: clamp(64px, 10vw, 104px);
 
+  /* Desacelera al final: la entrada frena sola en vez de cortarse. */
+  --ease-out: cubic-bezier(.22, .61, .36, 1);
+
   /* Alto real de la barra: 10px + alto del control + 10px + 2px de bordes.
      En desktop manda el CTA (44px); en mobile, la hamburguesa (46px).
      El hero se sube exactamente esto, así arranca pegado al borde superior
@@ -1078,6 +1081,26 @@ button { font-family: inherit; }
 }
 
 .footer__meta a { color: var(--grey-6); }
+
+/* ==========================================================================
+   SCROLL REVEAL
+   ========================================================================== */
+
+/* La clase .js-reveal la pone el JS. Sin JS, sin IntersectionObserver o con
+   movimiento reducido nunca llega a aplicarse, y el contenido se ve tal cual:
+   el estado oculto solo existe si hay algo que pueda revertirlo. */
+.js-reveal [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition:
+    opacity .7s var(--ease-out) var(--reveal-delay, 0ms),
+    transform .7s var(--ease-out) var(--reveal-delay, 0ms);
+}
+
+.js-reveal [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
 
 /* ==========================================================================
    MOTION PREFERENCES
