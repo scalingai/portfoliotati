@@ -13,3 +13,6 @@ desktop.ini
 
 # Dependencias (por si algún día se agregan)
 node_modules/
+
+# Config del deploy: vive solo en el VPS
+.env
