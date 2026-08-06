@@ -3,5 +3,7 @@ FROM caddy:2-alpine
 COPY Caddyfile /etc/caddy/Caddyfile
 
 # Se copian los archivos uno por uno a proposito: nada que no sea el sitio
-# entra a la imagen (ni .git, ni el compose, ni el Dockerfile).
+# entra a la imagen (ni .git, ni el Dockerfile).
 COPY index.html styles.css main.js /srv/
+
+EXPOSE 80
