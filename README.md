@@ -49,8 +49,8 @@ archivos. Instrucciones en [`assets/reels/README.md`](assets/reels/README.md).
   de escritorio y menú hamburguesa.
 - **Filtro del portfolio:** el `<section>` guarda la categoría activa en
   `data-cat` y el CSS oculta los grupos que no corresponden.
-- **Proceso creativo:** vive **dentro de "Lo que hago"** (`#servicios`), entre
-  las tarjetas de servicio y los formatos. Antes era una sección aparte y la
+- **Proceso creativo:** vive **dentro de "Lo que hago"** (`#servicios`), después
+  de las tarjetas de servicio y hoy cierra la sección. Antes era una aparte y la
   fila "Producción" de `#servicios` repetía 5 de sus 7 pasos; al fusionarlas se
   eliminó esa fila y la sección `#proceso`. El `id` se conserva en el riel para
   que el link del nav siga funcionando.
@@ -72,9 +72,6 @@ archivos. Instrucciones en [`assets/reels/README.md`](assets/reels/README.md).
   Es sólo CSS (`flex-direction: column` en el track) — al no quedar sobrante
   horizontal el JS mide `travel = 0` y entra solo en modo `static`, así que no
   hubo que tocar la lógica de modos.
-- **Formatos:** los 12 chips están agrupados por objetivo de la marca
-  ("para que te descubran", "para que entiendan el producto"…) en vez de por
-  jerga de creadora. No se sacó ni se agregó ningún formato.
 - **Resultados / sparklines:** las dos tarjetas del panel oscuro rematan en una
   curva ascendente. **Es decoración, no un gráfico**: no tiene eje de meses ni
   porcentaje de variación, justamente para no afirmar un dato que el sitio no
