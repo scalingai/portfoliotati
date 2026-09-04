@@ -113,7 +113,7 @@
     stagger('.card', 70);
     stagger('.group__head');
     stagger('.reel', 70);
-    stagger('.metrics__cell', 70);
+    stagger('.bigstats > *', 70);
     stagger('.why__title');
     stagger('.why__list');
   }

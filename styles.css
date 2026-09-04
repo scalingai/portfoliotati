@@ -80,8 +80,7 @@ button { font-family: inherit; }
 .ticker__track span,
 .sobre__hi,
 .sec-head__title,
-.pstep__n,
-.bigstats__v,
+.stat__v,
 .why__title,
 .footer__cta {
   font-family: var(--display);
@@ -142,6 +141,7 @@ button { font-family: inherit; }
 .nav__cta {
   display: inline-flex;
   align-items: center;
+  gap: 9px;
   min-height: 44px;
   padding: 0 22px;
   background: var(--ink);
@@ -153,6 +153,13 @@ button { font-family: inherit; }
 }
 
 .nav__cta:hover { background: #3a3a3a; color: #fff; }
+
+.ico-wa {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+  fill: currentColor;
+}
 
 .nav__burger {
   display: none;
@@ -205,6 +212,7 @@ button { font-family: inherit; }
 .nav__panel a:active { background: rgba(17, 17, 17, .06); }
 
 .nav__panel .nav__panel-cta {
+  gap: 9px;
   justify-content: center;
   min-height: 50px;
   margin-top: 6px;
@@ -336,6 +344,7 @@ button { font-family: inherit; }
 .btn {
   display: inline-flex;
   align-items: center;
+  gap: 9px;
   min-height: 50px;
   padding: 0 26px;
   border-radius: 999px;
@@ -491,6 +500,9 @@ button { font-family: inherit; }
 }
 
 .sec-head__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   font: 400 11px/1 var(--sans);
   letter-spacing: .16em;
   text-transform: uppercase;
@@ -503,6 +515,22 @@ button { font-family: inherit; }
 }
 
 .sec-head--dark .sec-head__title { color: #fff; }
+
+/* Glifo de Instagram (trazo, como los iconos del proceso): hereda el gris del
+   texto que acompaña en vez de meter el degrade de la marca. */
+.ico-ig {
+  width: clamp(22px, 2.6vw, 28px);
+  height: clamp(22px, 2.6vw, 28px);
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.ico-ig__dot {
+  fill: currentColor;
+  stroke: none;
+}
 
 /* ==========================================================================
    SOBRE MÍ
@@ -597,34 +625,6 @@ button { font-family: inherit; }
 .sobre__p:last-of-type { margin-bottom: 0; }
 
 /* 1px gaps show the container colour as hairlines between cells. */
-.factgrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
-  gap: 1px;
-  margin-top: clamp(32px, 5vw, 48px);
-  background: rgba(17, 17, 17, .10);
-}
-
-.factgrid__cell {
-  background: var(--sand);
-  padding: 20px 22px 18px;
-}
-
-.factgrid__k {
-  display: block;
-  font: 400 10.5px/1 var(--sans);
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--grey-7);
-}
-
-.factgrid__v {
-  display: block;
-  margin-top: 10px;
-  font: 500 15px/1.35 var(--sans);
-  color: var(--ink);
-}
-
 /* ==========================================================================
    LO QUE HAGO
    ========================================================================== */
@@ -943,8 +943,14 @@ button { font-family: inherit; }
 .pstep {
   flex: 0 0 var(--pstep-w);
   scroll-snap-align: center;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 14px;
+  row-gap: 10px;
+  /* Igual que antes, el contenido se apoya abajo: la tarjeta es alta y el
+     bloque de texto anclado al pie es lo que le daba peso. */
+  align-content: end;
   min-height: clamp(230px, 34vh, 340px);
   padding: clamp(18px, 2vw, 26px);
   border: 1px solid var(--line-strong);
@@ -956,29 +962,22 @@ button { font-family: inherit; }
     transform .4s var(--ease-out);
 }
 
-.pstep__n {
-  font-size: clamp(26px, 3vw, 38px);
-  line-height: 1;
-  color: var(--grey-9);
-  transition: color .4s var(--ease-out);
-}
-
 .pstep__icon {
-  width: clamp(32px, 3.2vw, 40px);
-  height: clamp(32px, 3.2vw, 40px);
-  margin-top: auto;
+  width: clamp(30px, 2.8vw, 36px);
+  height: clamp(30px, 2.8vw, 36px);
   color: var(--grey-7);
   transition: color .4s var(--ease-out);
 }
 
 .pstep__t {
-  margin: 14px 0 0;
+  margin: 0;
   font: 500 clamp(16px, 1.4vw, 19px)/1.3 var(--sans);
   letter-spacing: -.01em;
 }
 
 .pstep__d {
-  margin: 8px 0 0;
+  grid-column: 1 / -1;
+  margin: 0;
   font: 400 14px/1.55 var(--sans);
   color: var(--grey-5);
 }
@@ -989,7 +988,6 @@ button { font-family: inherit; }
   background: var(--hover-bg);
 }
 
-.pstep.is-active .pstep__n,
 .pstep.is-active .pstep__icon { color: var(--ink); }
 
 .pstep:hover { transform: translateY(-3px); }
@@ -1047,14 +1045,24 @@ button { font-family: inherit; }
 .proceso--pinned .pstep { scroll-snap-align: none; }
 
 @media (max-width: 860px) {
-  /* Igual que .listrow, el label se va arriba y el riel toma el ancho entero.
-     Tarjeta casi a pantalla completa: se ve la que sigue asomando y eso es
-     todo el aviso de que el bloque se arrastra. */
-  .proceso { --pstep-w: min(76vw, 300px); }
+  /* En mobile los 7 pasos van uno abajo del otro. El riel horizontal pedia
+     arrastrar de costado para leer una lista que se lee sola scrolleando, y la
+     tarjeta de al lado tapaba a medias la que estabas leyendo.
+
+     Al no quedar sobrante horizontal, el JS mide travel = 0 y entra solo en
+     modo "static": apaga la barra, borra el contador y dibuja los 7 iconos.
+     No hay nada que cambiar del lado del JS. */
+  .proceso {
+    /* Se devuelve la sangria: sin riel que salga por la derecha, el bloque se
+       alinea con el resto de la seccion. */
+    margin-left: 0;
+    margin-right: 0;
+  }
 
   .proceso__grid {
     grid-template-columns: 1fr;
     row-gap: 18px;
+    padding-left: 0;
   }
 
   .proceso__aside {
@@ -1062,10 +1070,27 @@ button { font-family: inherit; }
     align-items: baseline;
     justify-content: space-between;
     padding-top: 0;
-    padding-right: var(--gutter);
   }
 
-  .pstep { min-height: 250px; }
+  .proceso__viewport {
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+
+  .proceso__track {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* El espaciador de salida solo tiene sentido en horizontal. */
+  .proceso__track::after { display: none; }
+
+  /* Alto por contenido: siete tarjetas de 250px serian tres pantallas de aire. */
+  .pstep {
+    flex: 0 0 auto;
+    min-height: 0;
+    scroll-snap-align: none;
+  }
 }
 
 /* ==========================================================================
@@ -1086,66 +1111,97 @@ button { font-family: inherit; }
 
 .bigstats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
-  gap: clamp(28px, 5vw, 40px);
-  padding: clamp(28px, 5vw, 40px) 0 clamp(32px, 6vw, 48px);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: clamp(14px, 2.2vw, 22px);
+  padding: clamp(28px, 5vw, 40px) 0 0;
 }
 
-.bigstats__v {
-  font-size: clamp(38px, 7vw, 72px);
+/* Tarjeta apenas levantada del panel: el ink del fondo es #111, asi que un
+   #171717 con borde gris alcanza para despegarla sin meter otro color. */
+.stat {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(18px, 2.6vw, 26px);
+  border: 1px solid var(--grey-2);
+  border-radius: clamp(12px, 1.4vw, 18px);
+  background: #171717;
+  transition: border-color .25s ease, background .25s ease;
+}
+
+.stat:hover {
+  border-color: var(--grey-3);
+  background: #1c1c1c;
+}
+
+.stat__label {
+  margin: 0;
+  font: 400 11px/1 var(--sans);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--grey-7);
+}
+
+.stat__v {
+  margin-top: clamp(12px, 2vw, 18px);
+  font-size: clamp(32px, 4.4vw, 50px);
   line-height: 1;
   letter-spacing: -.02em;
   color: #fff;
 }
 
-.bigstats__l {
-  margin: 12px 0 0;
-  font: 400 14px/1.5 var(--sans);
-  color: var(--grey-7);
-}
-
-.featured {
-  border-top: 1px solid var(--grey-2);
-  padding-top: clamp(28px, 5vw, 40px);
-}
-
-.featured__label {
-  font: 400 11px/1 var(--sans);
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--grey-6);
-}
-
-.metrics {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(46%, 150px), 1fr));
-  gap: 1px;
-  background: var(--grey-2);
-  margin-top: 24px;
-}
-
-.metrics__cell {
-  background: var(--ink);
-  padding: 24px 20px;
-}
-
-.metrics__v {
-  font: 500 clamp(22px, 4vw, 30px)/1 var(--sans);
-  color: #fff;
-}
-
-.metrics__l {
+.stat__sub {
   margin: 10px 0 0;
-  font: 400 13px/1.4 var(--sans);
+  font: 400 13px/1.5 var(--sans);
   color: var(--grey-7);
 }
 
-.featured__quote {
-  margin: clamp(28px, 5vw, 36px) 0 0;
-  max-width: 760px;
-  font: 400 clamp(17px, 2.6vw, 22px)/1.55 var(--sans);
-  color: #e6e6e6;
-  text-wrap: pretty;
+/* El viewBox escala con la tarjeta; non-scaling-stroke evita que la linea
+   engorde con el ancho, que es lo que delata a una sparkline estirada. */
+.spark {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: clamp(16px, 2.4vw, 22px);
+  overflow: visible;
+}
+
+.spark__line {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.spark__dot { fill: #fff; }
+.spark__halo { fill: rgba(255, 255, 255, .16); }
+
+/* Misma regla que los iconos del proceso: el estado oculto solo existe si el
+   JS esta vivo para revertirlo. Sin JS la curva se ve entera y quieta. */
+.js-reveal .spark__line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.js-reveal .spark__area,
+.js-reveal .spark__halo,
+.js-reveal .spark__dot { opacity: 0; }
+
+.js-reveal .stat.is-in .spark__line {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1.5s var(--ease-out) .2s;
+}
+
+.js-reveal .stat.is-in .spark__area {
+  opacity: 1;
+  transition: opacity .9s var(--ease-out) .6s;
+}
+
+.js-reveal .stat.is-in .spark__halo,
+.js-reveal .stat.is-in .spark__dot {
+  opacity: 1;
+  transition: opacity .5s var(--ease-out) 1.35s;
 }
 
 /* ==========================================================================
@@ -1209,7 +1265,12 @@ button { font-family: inherit; }
   gap: clamp(28px, 5vw, 48px);
 }
 
-.footer__main { flex: 1 1 320px; }
+.footer__main {
+  flex: 1 1 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 
 .footer__cta {
   margin: 0 0 22px;
@@ -1219,7 +1280,7 @@ button { font-family: inherit; }
   text-wrap: balance;
 }
 
-.footer__mail {
+.footer__wa {
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -1229,11 +1290,22 @@ button { font-family: inherit; }
   color: #fff;
   border-radius: 999px;
   font: 500 14px/1.3 var(--sans);
-  word-break: break-all;
   transition: background .18s ease;
 }
 
-.footer__mail:hover { background: #3a3a3a; color: #fff; }
+.footer__wa:hover { background: #3a3a3a; color: #fff; }
+
+.footer__mail {
+  display: inline-block;
+  margin-top: 16px;
+  font: 400 14px/1.4 var(--sans);
+  color: var(--grey-6);
+  word-break: break-all;
+  border-bottom: 1px solid rgba(17, 17, 17, .18);
+  transition: color .18s ease, border-color .18s ease;
+}
+
+.footer__mail:hover { color: var(--ink); border-color: var(--ink); }
 
 .footer__meta {
   display: flex;

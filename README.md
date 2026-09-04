@@ -58,19 +58,56 @@ archivos. Instrucciones en [`assets/reels/README.md`](assets/reels/README.md).
   Los 7 pasos son un riel horizontal con íconos que se dibujan al entrar. Un
   mismo markup, tres modos que elige el JS al medir: `pin` (el contenedor se
   estira lo que sobra del riel y la banda queda `sticky` a media altura, así el
-  scroll vertical la desplaza de lado), `drag` (carrusel con `scroll-snap` — es
-  lo que queda en mobile, sin JS o con `prefers-reduced-motion`) y `static` (los
-  7 entran juntos en pantalla: se ocultan la barra y el contador). La banda no
+  scroll vertical la desplaza de lado), `drag` (carrusel con `scroll-snap`, sin
+  JS o con `prefers-reduced-motion`) y `static` (no hay sobrante horizontal: se
+  ocultan la barra y el contador y se dibujan los 7 íconos). La banda no
   tiene alto fijo: mide lo que mida su contenido y el JS calcula el `top` que la
   centra, así una fuente de fallback o un texto más grande no recortan nada.
   Los íconos son de [Lucide](https://lucide.dev) (ISC), pegados inline y
   animados con `pathLength="1"` + `stroke-dashoffset`, sin librería ni runtime.
+
+  **En mobile (≤860px) los 7 pasos van uno debajo del otro**, no de costado: el
+  riel obligaba a arrastrar en horizontal para leer una lista que se lee sola
+  scrolleando, y la tarjeta de al lado tapaba a medias la que estabas leyendo.
+  Es sólo CSS (`flex-direction: column` en el track) — al no quedar sobrante
+  horizontal el JS mide `travel = 0` y entra solo en modo `static`, así que no
+  hubo que tocar la lógica de modos.
 - **Formatos:** los 12 chips están agrupados por objetivo de la marca
   ("para que te descubran", "para que entiendan el producto"…) en vez de por
   jerga de creadora. No se sacó ni se agregó ningún formato.
-- **Datos de contacto:** el mail (`tatuabril73@gmail.com`) y el usuario de
-  Instagram (`@tatiiorquera`) están escritos en `index.html`. Para cambiarlos,
-  buscá y reemplazá ahí.
+- **Resultados / sparklines:** las dos tarjetas del panel oscuro rematan en una
+  curva ascendente. **Es decoración, no un gráfico**: no tiene eje de meses ni
+  porcentaje de variación, justamente para no afirmar un dato que el sitio no
+  puede respaldar. Por eso van `aria-hidden` — los únicos datos de la sección
+  son los dos números, que sí son reales.
+
+  Aun así la geometría está calculada y no dibujada a ojo: los `path` salen de
+  `node scripts/sparklines.mjs`, que convierte una serie de valores en una
+  Bézier que pasa por cada punto. Si algún día se quiere la curva real, se
+  cargan los valores ahí y se pegan los dos `path` (línea y área) que imprime.
+
+  La línea se dibuja sola al entrar en pantalla (`pathLength="1"` +
+  `stroke-dashoffset`, la misma técnica que los íconos del proceso). Sin JS o
+  con `prefers-reduced-motion` la curva se ve entera y quieta.
+
+  El meta de la sección es el glifo de Instagram (trazo, hereda el gris del
+  contexto). Al no haber texto al lado, lleva `role="img"` +
+  `aria-label="Instagram"`: es el único que dice de dónde salen los números.
+
+- **CTAs de contacto:** los 4 botones (nav, panel mobile, hero y footer) abren
+  WhatsApp con un mensaje prellenado. El número y el texto viven en el propio
+  `href` de cada uno: para cambiarlos, buscá `wa.me` en `index.html` — son 4
+  ocurrencias idénticas. Están en el HTML y no en el JS a propósito: sin JS el
+  link tiene que seguir funcionando.
+
+  El número es `5491126948688` (+54 9 11 2694-8688). Formato de `wa.me`: código
+  de país + 9 + área sin el 0 + número sin el 15, todo junto y sin espacios ni
+  guiones — cualquier símbolo rompe el link.
+
+- **Datos de contacto:** el mail (`tatuabril73@gmail.com`, que pasó a ser la
+  alternativa secundaria del footer) y el usuario de Instagram
+  (`@tatiiorquera`) están escritos en `index.html`. Para cambiarlos, buscá y
+  reemplazá ahí.
 
 Agregados sobre el prototipo, sin tocar lo visual: `lang="es"`, meta tags y Open
 Graph, `aria-expanded`/`aria-selected` en menú y filtros, cierre del menú con
