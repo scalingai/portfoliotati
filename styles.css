@@ -719,6 +719,7 @@ button { font-family: inherit; }
 .group--last { margin-bottom: 0; }
 
 /* Filtering: the section carries the active category. */
+.portfolio[data-cat="marcas"] .group:not([data-cat="marcas"]),
 .portfolio[data-cat="fit"]  .group:not([data-cat="fit"]),
 .portfolio[data-cat="moda"] .group:not([data-cat="moda"]),
 .portfolio[data-cat="res"]  .group:not([data-cat="res"]) { display: none; }
@@ -1300,4 +1301,49 @@ button { font-family: inherit; }
   *, *::before, *::after {
     transition-duration: .01ms !important;
   }
+}
+
+/* Desglose de Resultados: tres tarjetas chicas debajo de las dos grandes, con
+   el mismo fondo y borde que .stat. Cada fila es "nombre · valor" y debajo una
+   barra fina cuyo ancho es el porcentaje real (--p en el HTML). */
+.split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: clamp(14px, 2.2vw, 22px);
+  margin-top: clamp(14px, 2.2vw, 22px);
+}
+
+.split__card {
+  padding: clamp(18px, 2.6vw, 24px);
+  border: 1px solid var(--grey-2);
+  border-radius: clamp(12px, 1.4vw, 18px);
+  background: #171717;
+}
+
+.split__rows {
+  display: grid;
+  gap: 16px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.split__rows li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  row-gap: 8px;
+  font: 400 14px/1.2 var(--sans);
+  color: var(--grey-8);
+}
+
+.split__rows b {
+  font-weight: 500;
+  color: #fff;
+}
+
+.split__bar {
+  grid-column: 1 / -1;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(#fff, #fff) 0 0 / max(var(--p), 3px) 100% no-repeat, var(--grey-2);
 }
