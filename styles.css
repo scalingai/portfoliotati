@@ -312,6 +312,7 @@ button { font-family: inherit; }
 }
 
 .strip {
+  position: relative;
   display: block;
   aspect-ratio: 9 / 16;
   border-radius: clamp(12px, 1.4vw, 18px);

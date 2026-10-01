@@ -72,12 +72,25 @@
 
   /* ------------------------------------------------- reels en movimiento */
 
-  // Cada miniatura reproduce en loop los primeros 3 s del reel, solo mientras
-  // está en pantalla. Sin atributo autoplay a propósito: con autoplay el
+  // Cada miniatura (las 11 de la grilla y las 3 portadas del hero) reproduce
+  // en loop los primeros 3 s del reel, solo mientras está en pantalla. Las del
+  // hero llevan preload="metadata" porque se ven de entrada; la portada es un
+  // <img> aparte debajo del video, así que se ve al instante igual. Sin atributo autoplay a propósito: con autoplay el
   // navegador ignora preload="none" y baja los 11 videos al cargar la página.
   // Acá cada uno se pide recién la primera vez que asoma, y se pausa al salir.
   // muted + playsinline es lo que deja a iOS reproducirlo sin pantalla completa.
   var reelVideos = document.querySelectorAll('.reel__video');
+
+  // Con movimiento reducido no se reproduce ninguno. Los del hero ya empezaron
+  // a bajar por preload="metadata": sin fuentes, load() corta esa descarga y
+  // queda la portada.
+  if (reduceMotion) {
+    reelVideos.forEach(function (v) {
+      if (v.preload === 'none') return;
+      v.querySelectorAll('source').forEach(function (src) { src.remove(); });
+      v.load();
+    });
+  }
 
   if (reelVideos.length && 'IntersectionObserver' in window && !reduceMotion) {
     var reelIo = new IntersectionObserver(function (entries) {
