@@ -6,11 +6,14 @@ dependencias, sin framework. Implementado a partir del handoff de Claude Design
 
 ```
 index.html          Estructura y contenido
-styles.css          Todos los estilos
+styles.css          Estilos base
+media-kit.css       Maqueta de estética "media kit" (mármol, marrones, script),
+                    capa encima de styles.css — t_162ee374, sin aprobar todavía
 main.js             Menú mobile, filtro del portfolio, track del proceso,
                     fondo WebGL del hero
 assets/
   tat-sobre-2.jpg   Retrato de la sección "Sobre mí"
+  marmol.webp       Textura de mármol (baldosa continua de 1400 px, generada)
   marcas/           Logos de la franja de marcas (Dove, Hamilton Beach y Maybelline en SVG
                     de Wikimedia Commons; Sillones JT y Lela Café sacados de sus
                     fotos de perfil de Instagram, pasados a un color con fondo
