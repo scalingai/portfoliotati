@@ -115,7 +115,6 @@
     stagger('.reel', 70);
     stagger('.num', 70);
     stagger('.strip', 90);
-    stagger('.marcas__row li', 50);
     stagger('.why__title');
     stagger('.why__list');
   }

@@ -76,7 +76,6 @@ button { font-family: inherit; }
 /* Display type shares one recipe: Archivo at 125% width, tight tracking. */
 .hero__title,
 .nav__logo,
-.ticker__track span,
 .sobre__hi,
 .sec-head__title,
 .why__title,
@@ -297,9 +296,7 @@ button { font-family: inherit; }
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1.05fr .95fr;
-  grid-template-areas:
-    "strips copy"
-    "feat   feat";
+  grid-template-areas: "strips copy";
   column-gap: clamp(36px, 5vw, 72px);
   align-items: end;
 }
@@ -339,26 +336,6 @@ button { font-family: inherit; }
 .hero__copy {
   grid-area: copy;
   padding-bottom: clamp(40px, 5vw, 64px);
-}
-
-.eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  margin: 0 0 24px;
-  font: 400 clamp(10px, 1.6vw, 11px)/1.4 var(--sans);
-  letter-spacing: .28em;
-  text-transform: uppercase;
-  color: var(--grey-6);
-}
-
-.eyebrow__dot {
-  width: 6px;
-  height: 6px;
-  flex: none;
-  border-radius: 50%;
-  background: var(--ink);
-  display: block;
 }
 
 .hero__title {
@@ -403,26 +380,14 @@ button { font-family: inherit; }
 .btn--ghost { border: 1px solid rgba(17, 17, 17, .22); color: var(--ink); }
 .btn--ghost:hover { border-color: var(--ink); color: var(--ink); }
 
-/* Fila "trabajo destacado" al pie del hero. */
-.hero__feat {
-  grid-area: feat;
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding-top: 16px;
-  border-top: 1px solid rgba(17, 17, 17, .16);
-  font: 400 11px/1.4 var(--sans);
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--grey-5);
-}
-
-.hero__feat:hover { color: var(--ink); }
-
 @media (max-width: 860px) {
+  /* Apilado, el contenido ya es más alto que la pantalla: sin alto mínimo
+     no queda un hueco arriba de las portadas. */
+  .hero { min-height: 0; }
+
   .hero__inner {
     grid-template-columns: 1fr;
-    grid-template-areas: "strips" "copy" "feat";
+    grid-template-areas: "strips" "copy";
   }
 
   .hero__strips { padding-bottom: 36px; }
@@ -430,48 +395,81 @@ button { font-family: inherit; }
   .hero__title { max-width: none; }
 }
 
+/* En el celu los dos botones van en la misma línea: más bajos y angostos,
+   cada uno de su ancho. Si la pantalla no da (menos de ~360 px), bajan. */
 @media (max-width: 520px) {
-  .hero__feat span:nth-child(3) { display: none; }
+  .hero__actions { gap: 8px; }
+
+  .hero__actions .btn {
+    min-height: 44px;
+    padding: 0 15px;
+    gap: 7px;
+    font-size: 13px;
+  }
+
+  .hero__actions .ico-wa { width: 15px; height: 15px; }
 }
 
 /* ==========================================================================
-   TICKER
+   MARCAS (franja de logos)
    ========================================================================== */
 
-.ticker {
+/* Logos reales en un solo gris (brightness(0) los pasa a negro y la opacidad
+   los aclara), sobre la arena del sitio. Cada logo tiene su alto para que
+   todos pesen parecido a la vista: un monograma alto y una palabra larga no
+   pueden ir a la misma altura. */
+.logos {
   position: relative;
   overflow: hidden;
-  padding: clamp(18px, 3vw, 26px) 0;
-  background: var(--ink);
-  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
-  mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+  padding: clamp(22px, 3.4vw, 34px) 0;
+  background: var(--sand);
+  border-top: 1px solid rgba(17, 17, 17, .08);
+  border-bottom: 1px solid rgba(17, 17, 17, .08);
 }
 
-.ticker__track {
+/* Los logos se desvanecen en los bordes con dos degradés del color de fondo,
+   fijos encima del track. Una máscara en la franja desvanecería también el
+   fondo, y en el track se movería con él. */
+.logos::before,
+.logos::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 10vw;
+  pointer-events: none;
+}
+
+.logos::before { left: 0;  background: linear-gradient(90deg, var(--sand), rgba(241, 240, 238, 0)); }
+.logos::after  { right: 0; background: linear-gradient(-90deg, var(--sand), rgba(241, 240, 238, 0)); }
+
+.logos__track {
   display: flex;
   align-items: center;
   width: max-content;
-  gap: clamp(20px, 4vw, 36px);
-  animation: tickerScroll 42s linear infinite;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  animation: tickerScroll 40s linear infinite;
 }
 
-.ticker__track span {
-  font-size: clamp(17px, 3.6vw, 32px);
-  line-height: 1;
-  letter-spacing: .02em;
-  text-transform: uppercase;
-  color: #fff;
-  white-space: nowrap;
-}
-
-.ticker__track i {
-  width: 7px;
-  height: 7px;
+.logos__track li {
   flex: none;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, .35);
-  display: block;
+  padding: 0 clamp(28px, 5vw, 56px);
 }
+
+.logos__track img {
+  display: block;
+  width: auto;
+  filter: brightness(0);
+  opacity: .5;
+}
+
+.logo--dove { height: clamp(34px, 4.6vw, 46px); }
+.logo--hb   { height: clamp(22px, 2.8vw, 28px); }
+.logo--jt   { height: clamp(44px, 5.6vw, 56px); }
+.logo--lela { height: clamp(24px, 3vw, 30px); }
 
 @keyframes tickerScroll {
   from { transform: translateX(0); }
@@ -648,6 +646,39 @@ button { font-family: inherit; }
   .sobre__body { display: contents; }
 
   .portrait { grid-area: 1 / 1; }
+
+  /* El rótulo "Sobre mí · Buenos Aires" va arriba, adentro de la foto,
+     sobre su propio degradé. */
+  .sobre .wrap { position: relative; }
+
+  .sobre .rule-head {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: min(100%, 440px);
+    margin: 0;
+    padding: 20px 22px;
+    justify-content: space-between;
+  }
+
+  .sobre .rule-head__line { display: none; }
+
+  .sobre .rule-head__label,
+  .sobre .rule-head__meta {
+    color: #fff;
+    text-shadow: 0 1px 10px rgba(17, 17, 17, .45);
+  }
+
+  .portrait::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 1;
+    height: 26%;
+    background: linear-gradient(to bottom, rgba(17, 17, 17, .58), rgba(17, 17, 17, 0));
+    pointer-events: none;
+  }
 
   .portrait::after {
     content: "";
@@ -1292,52 +1323,6 @@ button { font-family: inherit; }
 
 .footer__meta a { color: var(--grey-6); }
 
-/* ==========================================================================
-   MARCAS
-   ========================================================================== */
-
-.marcas { padding: 0 var(--gutter) var(--section-y); }
-
-.marcas__t {
-  margin: 0 0 clamp(28px, 4vw, 44px);
-  text-align: center;
-  font: 400 clamp(11px, 1.6vw, 12px)/1.4 var(--sans);
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: var(--grey-6);
-}
-
-.marcas__row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  border-top: 1px solid var(--line-strong);
-  border-bottom: 1px solid var(--line-strong);
-}
-
-.marcas__row li {
-  display: grid;
-  place-items: center;
-  min-height: clamp(88px, 10vw, 128px);
-  padding: 0 12px;
-  text-align: center;
-  font-family: var(--display);
-  font-weight: 600;
-  font-stretch: 110%;
-  font-size: clamp(17px, 2vw, 24px);
-  letter-spacing: -.01em;
-}
-
-.marcas__row li + li { border-left: 1px solid var(--line-strong); }
-
-@media (max-width: 640px) {
-  .marcas__row { grid-template-columns: repeat(2, 1fr); }
-  .marcas__row li:nth-child(3) { border-left: 0; }
-  .marcas__row li:nth-child(n + 3) { border-top: 1px solid var(--line-strong); }
-}
-
 /* Nombre gigante al pie, como el cierre de Kommakomma. "TATI ORQUERA" en
    Archivo 125% mide ~9,25 em: el tamaño sale del ancho útil para que llene
    la línea sin cortarse a los costados. Abajo se recorta a propósito. */
@@ -1383,7 +1368,7 @@ button { font-family: inherit; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 
-  .ticker__track { animation: none; }
+  .logos__track { animation: none; }
 
   *, *::before, *::after {
     transition-duration: .01ms !important;
