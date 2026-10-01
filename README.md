@@ -11,7 +11,7 @@ main.js             Menú mobile, filtro del portfolio, track del proceso,
                     fondo WebGL del hero
 assets/
   tat-sobre-2.jpg   Retrato de la sección "Sobre mí"
-  marcas/           Logos de la franja de marcas (Dove y Hamilton Beach en SVG
+  marcas/           Logos de la franja de marcas (Dove, Hamilton Beach y Maybelline en SVG
                     de Wikimedia Commons; Sillones JT y Lela Café sacados de sus
                     fotos de perfil de Instagram, pasados a un color con fondo
                     transparente)

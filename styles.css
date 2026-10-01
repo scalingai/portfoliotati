@@ -391,7 +391,7 @@ button { font-family: inherit; }
   }
 
   .hero__strips { padding-bottom: 36px; }
-  .hero__copy { padding-bottom: 36px; }
+  .hero__copy { padding-bottom: 16px; }
   .hero__title { max-width: none; }
 }
 
@@ -399,6 +399,8 @@ button { font-family: inherit; }
    cada uno de su ancho. Si la pantalla no da (menos de ~360 px), bajan. */
 @media (max-width: 520px) {
   .hero__actions { gap: 8px; }
+
+  .logos { padding: 18px 0; }
 
   .hero__actions .btn {
     min-height: 44px;
@@ -470,6 +472,7 @@ button { font-family: inherit; }
 .logo--hb   { height: clamp(22px, 2.8vw, 28px); }
 .logo--jt   { height: clamp(44px, 5.6vw, 56px); }
 .logo--lela { height: clamp(24px, 3vw, 30px); }
+.logo--mny  { height: clamp(34px, 4.4vw, 44px); } /* el SVG trae 10 px de aire por lado */
 
 @keyframes tickerScroll {
   from { transform: translateX(0); }
@@ -545,7 +548,7 @@ button { font-family: inherit; }
    ========================================================================== */
 
 .sobre {
-  padding: var(--section-y) var(--gutter);
+  padding: clamp(28px, 6vw, 72px) var(--gutter) var(--section-y);
   background: var(--sand);
   scroll-margin-top: 88px;
 }
