@@ -93,13 +93,42 @@
   }
 
   if (reelVideos.length && 'IntersectionObserver' in window && !reduceMotion) {
+    // iOS puede rechazar el play() aunque el video esté muted (modo ahorro de
+    // batería, o si el video todavía no cargó). En vez de quedarse con la
+    // portada quieta, los rechazados se reintentan con el primer toque o scroll.
+    var visibles = new Set();
+    var pendientes = new Set();
+    var gestos = ['touchstart', 'touchend', 'pointerdown', 'click', 'scroll', 'keydown'];
+
+    function reproducir(v) {
+      var p = v.play();
+      if (p && p.catch) {
+        p.then(function () { pendientes.delete(v); }, function () {
+          pendientes.add(v);
+          esperarGesto();
+        });
+      }
+    }
+
+    function reintentar() {
+      gestos.forEach(function (ev) { window.removeEventListener(ev, reintentar, true); });
+      pendientes.forEach(function (v) { if (visibles.has(v)) reproducir(v); });
+    }
+
+    function esperarGesto() {
+      gestos.forEach(function (ev) {
+        window.addEventListener(ev, reintentar, { capture: true, passive: true, once: true });
+      });
+    }
+
     var reelIo = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         var v = entry.target;
         if (entry.isIntersecting) {
-          var p = v.play();
-          if (p && p.catch) p.catch(function () {});
+          visibles.add(v);
+          reproducir(v);
         } else {
+          visibles.delete(v);
           v.pause();
         }
       });
