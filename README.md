@@ -11,6 +11,10 @@ main.js             Menú mobile, filtro del portfolio, track del proceso,
                     fondo WebGL del hero
 assets/
   tat-sobre-2.jpg   Retrato de la sección "Sobre mí"
+  marcas/           Logos de la franja de marcas (Dove y Hamilton Beach en SVG
+                    de Wikimedia Commons; Sillones JT y Lela Café sacados de sus
+                    fotos de perfil de Instagram, pasados a un color con fondo
+                    transparente)
   reels/            Portadas de los reels — ver assets/reels/README.md
 tatiana-orquera-portfolio/   Bundle original de Claude Design (referencia)
 ```
@@ -107,5 +111,5 @@ archivos. Instrucciones en [`assets/reels/README.md`](assets/reels/README.md).
 
 Agregados sobre el prototipo, sin tocar lo visual: `lang="es"`, meta tags y Open
 Graph, `aria-expanded`/`aria-selected` en menú y filtros, cierre del menú con
-Escape, foco visible, y respeto por `prefers-reduced-motion` (frena el ticker y
+Escape, foco visible, y respeto por `prefers-reduced-motion` (frena la franja de logos y
 congela el shader). El shader además pausa cuando el hero sale de pantalla.
