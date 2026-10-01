@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=8">
+<link rel="stylesheet" href="styles.css?v=9">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23f1f0ee'/%3E%3Ctext x='200' y='228' text-anchor='middle' font-family='Helvetica,Arial,sans-serif' font-size='112' font-weight='700' fill='%23111111'%3ETO%3C/text%3E%3C/svg%3E">
 </head>
 <body>
@@ -71,12 +71,24 @@
     <div class="hero__strips">
       <a class="strip" href="https://www.instagram.com/p/Dd2TcdOgCcC/" target="_blank" rel="noopener" aria-label="Ver el reel para Dove">
         <img src="assets/reels/collab-dove.jpg" width="360" height="640" alt="Reel para Dove" fetchpriority="high" decoding="async">
+        <video class="reel__video" muted loop playsinline preload="metadata" poster="assets/reels/collab-dove.jpg" aria-hidden="true" tabindex="-1">
+          <source src="assets/reels/video/collab-dove.webm" type="video/webm">
+          <source src="assets/reels/video/collab-dove.mp4" type="video/mp4">
+        </video>
       </a>
       <a class="strip" href="https://www.instagram.com/p/Dd60JBLP77_/" target="_blank" rel="noopener" aria-label="Ver la reseña de Lela Café">
         <img src="assets/reels/collab-lela-cafe.jpg" width="360" height="640" alt="Reseña de Lela Café" decoding="async">
+        <video class="reel__video" muted loop playsinline preload="metadata" poster="assets/reels/collab-lela-cafe.jpg" aria-hidden="true" tabindex="-1">
+          <source src="assets/reels/video/collab-lela-cafe.webm" type="video/webm">
+          <source src="assets/reels/video/collab-lela-cafe.mp4" type="video/mp4">
+        </video>
       </a>
       <a class="strip" href="https://www.instagram.com/p/DcELaFHBp1u/" target="_blank" rel="noopener" aria-label="Ver el reel para Hamilton Beach">
         <img src="assets/reels/collab-hamilton-beach.jpg" width="360" height="640" alt="Reel para Hamilton Beach" decoding="async">
+        <video class="reel__video" muted loop playsinline preload="metadata" poster="assets/reels/collab-hamilton-beach.jpg" aria-hidden="true" tabindex="-1">
+          <source src="assets/reels/video/collab-hamilton-beach.webm" type="video/webm">
+          <source src="assets/reels/video/collab-hamilton-beach.mp4" type="video/mp4">
+        </video>
       </a>
     </div>
 
@@ -586,6 +598,6 @@
   <p class="footer__big" aria-hidden="true">Tati Orquera</p>
 </footer>
 
-<script src="main.js?v=8"></script>
+<script src="main.js?v=9"></script>
 </body>
 </html>
