@@ -1,0 +1,994 @@
+/* ==========================================================================
+   Estética "UGC media kit" — t_162ee374
+   Capa encima de styles.css: mismos bloques, mismo orden y mismo markup, con
+   otra piel. Mármol blanco-gris, marrones chocolate/café, crema, el nombre en
+   sans condensada con firma en script y los reels dentro de marcos de iPhone.
+
+   No toca la lógica de los videos: .reel__video e .is-playing siguen como en
+   styles.css; acá solo cambia el marco que los rodea.
+
+   Tipografías: Anton (nombre, números, títulos de tarjeta), Ephesis (firma y
+   títulos de sección), Cormorant Garamond (bajadas), Jost (rótulos y texto).
+   El mármol (assets/marmol.webp) es una baldosa continua de 1400 px generada
+   con ruido periódico: se repite sin costuras.
+   ========================================================================== */
+
+:root {
+  --espresso: #2b1d16;
+  --chocolate: #4a3226;
+  --cafe: #7a5a45;
+  --caramel: #a9805f;
+  --caramel-soft: #c9a88a;
+  --latte: #ece2d6;
+  --cream: #f7f2eb;
+  --cream-2: #fbf8f3;
+  --ink-soft: #5d4a3e;
+
+  --hair: rgba(122, 90, 69, .22);
+  --hair-strong: rgba(74, 50, 38, .38);
+
+  --ink: var(--espresso);
+  --sand: var(--cream);
+  --sand-deep: var(--latte);
+  --line: var(--hair);
+  --line-strong: var(--hair);
+  --hover-bg: var(--cream-2);
+  --grey-1: var(--chocolate);
+  --grey-2: var(--chocolate);
+  --grey-3: var(--ink-soft);
+  --grey-4: var(--ink-soft);
+  --grey-5: #6f5a4c;
+  --grey-6: #8a7363;
+  --grey-7: #9c8574;
+  --grey-8: #b39d8b;
+
+  --sans: "Jost", "Helvetica Neue", Arial, sans-serif;
+  --display: "Anton", "Arial Narrow", Impact, sans-serif;
+  --script: "Ephesis", "Brush Script MT", cursive;
+  --serif: "Cormorant Garamond", Georgia, serif;
+
+  --marble: url("../assets/marmol.webp");
+
+  /* Marco de iPhone: bisel, radio exterior y borde de titanio. */
+  --bezel: clamp(5px, .55vw, 8px);
+  --phone-r: clamp(22px, 2.4vw, 34px);
+  --phone-edge: #6e5849;
+  --phone-black: #15100d;
+}
+
+/* El mármol va lavado con crema: textura que se siente, no que se mira. */
+body {
+  background:
+    linear-gradient(rgba(250, 247, 242, .5), rgba(250, 247, 242, .5)),
+    var(--cream) var(--marble) 0 0 / 1400px repeat;
+  color: var(--espresso);
+}
+
+a { color: var(--espresso); }
+a:hover { color: var(--cafe); }
+::selection { background: var(--chocolate); color: var(--cream); }
+:focus-visible { outline-color: var(--chocolate); }
+
+/* Anton no tiene ancho variable ni otro peso: se anula la receta de Archivo. */
+.hero__title,
+.nav__logo,
+.sobre__hi,
+.sec-head__title,
+.why__title,
+.footer__cta,
+.num__v,
+.footer__big {
+  font-stretch: normal;
+}
+
+/* Rótulo chico en mayúsculas espaciadas: la tercera voz tipográfica. */
+.rule-head__meta,
+.sec-head__meta,
+.proceso__meta,
+.portrait__caption span:last-child,
+.reel__meta,
+.nums__foot,
+.num__l span,
+.footer__meta {
+  font-family: var(--sans);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   NAV
+   ========================================================================== */
+
+.nav__bar {
+  border-color: rgba(255, 255, 255, .5);
+  background: linear-gradient(180deg, rgba(251, 248, 243, .82), rgba(247, 242, 235, .64));
+  box-shadow:
+    0 12px 36px -16px rgba(43, 29, 22, .45),
+    inset 0 1px 0 rgba(255, 255, 255, .9);
+}
+
+.nav__logo {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .12em;
+  font: 400 clamp(19px, 2.4vw, 23px)/1 var(--display);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--espresso);
+}
+
+.nav__logo span {
+  font: 400 1.25em/0 var(--script);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--caramel);
+  transform: translateY(.08em);
+}
+
+.nav__links {
+  font: 500 11px/1 var(--sans);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.nav__links a { color: var(--ink-soft); }
+.nav__links a:hover { color: var(--espresso); }
+
+.nav__cta,
+.nav__burger,
+.nav__panel .nav__panel-cta {
+  background: var(--espresso);
+  color: var(--cream);
+}
+
+.nav__cta {
+  font: 500 11.5px/1 var(--sans);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.nav__cta:hover { background: var(--chocolate); color: var(--cream); }
+.nav__burger span { background: var(--cream); }
+
+.nav__panel {
+  background: linear-gradient(180deg, rgba(251, 248, 243, .94), rgba(247, 242, 235, .86));
+}
+
+.nav__panel a {
+  font: 400 22px/1 var(--serif);
+  color: var(--espresso);
+}
+
+.nav__panel .nav__panel-cta {
+  font: 500 12px/1 var(--sans);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   HERO — oscuro, cálido, con el nombre como en la tapa del media kit
+   ========================================================================== */
+
+.hero {
+  background:
+    radial-gradient(70% 80% at 76% 42%, rgba(138, 100, 74, .55), rgba(43, 29, 22, 0) 62%),
+    radial-gradient(60% 70% at 8% 0%, rgba(92, 64, 48, .55), rgba(43, 29, 22, 0) 70%),
+    linear-gradient(180deg, #2f2018, #22170f);
+  color: var(--cream);
+  align-items: center;
+}
+
+/* El shader de siempre, pasado a humo claro sobre el café: misma animación,
+   otro color, sin tocar el JS. */
+.hero__canvas {
+  opacity: .07;
+  mix-blend-mode: screen;
+  filter: sepia(.6) contrast(1.2);
+}
+
+.hero__spot {
+  background: radial-gradient(circle, rgba(201, 168, 138, .30), rgba(201, 168, 138, 0) 62%);
+}
+
+.hero__noise {
+  opacity: .22;
+  mix-blend-mode: overlay;
+}
+
+/* Viñeta: oscurece bordes y pie para que el texto respire. */
+.hero__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(21, 14, 10, .35) 0%, rgba(21, 14, 10, 0) 30%, rgba(21, 14, 10, 0) 70%, rgba(21, 14, 10, .45) 100%),
+    radial-gradient(140% 100% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(14, 9, 6, .45) 100%);
+}
+
+.hero__inner {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas:
+    "name strips"
+    "copy strips";
+  grid-template-rows: auto 1fr;
+  align-items: start;
+}
+
+.hero__name {
+  grid-area: name;
+  position: relative;
+  padding-top: clamp(8px, 2vw, 28px);
+}
+
+.hero__kicker {
+  margin: 0 0 clamp(10px, 1.4vw, 18px);
+  font: 400 clamp(12px, 1.1vw, 15px)/1 var(--serif);
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: rgba(247, 242, 235, .78);
+}
+
+.hero__sig {
+  position: relative;
+  margin: 0;
+  line-height: 1;
+}
+
+.hero__first {
+  display: block;
+  font: 400 clamp(84px, 10.6vw, 170px)/.86 var(--display);
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+
+/* La firma pisa la base del nombre, como "Miller" sobre "OLIVIA". */
+.hero__last {
+  display: block;
+  margin: -.42em 0 0 auto;
+  width: max-content;
+  padding-right: .1em;
+  font: 400 clamp(64px, 7.6vw, 124px)/1 var(--script);
+  color: var(--caramel-soft);
+  transform: rotate(-4deg);
+  transform-origin: right center;
+  text-shadow: 0 2px 18px rgba(21, 14, 10, .35);
+}
+
+.hero__copy {
+  grid-area: copy;
+  align-self: end;
+  padding-bottom: clamp(48px, 6vw, 80px);
+}
+
+.hero__title {
+  max-width: 17ch;
+  font: 500 clamp(30px, 3.2vw, 46px)/1.12 var(--serif);
+  letter-spacing: -.005em;
+  color: var(--cream);
+}
+
+.hero__title span {
+  font: 400 1.5em/0 var(--script);
+  color: var(--caramel-soft);
+  letter-spacing: 0;
+}
+
+.hero__lead {
+  max-width: 460px;
+  font: 300 clamp(15px, 1.3vw, 16.5px)/1.7 var(--sans);
+  color: rgba(247, 242, 235, .74);
+}
+
+.btn {
+  font: 500 11.5px/1 var(--sans);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.btn--solid { background: var(--espresso); color: var(--cream); }
+.btn--solid:hover { background: var(--chocolate); color: var(--cream); }
+.btn--ghost { border-color: var(--hair-strong); color: var(--espresso); }
+.btn--ghost:hover { border-color: var(--espresso); color: var(--espresso); }
+
+.hero .btn--solid { background: var(--cream); color: var(--espresso); }
+.hero .btn--solid:hover { background: #fff; color: var(--espresso); }
+.hero .btn--ghost { border-color: rgba(247, 242, 235, .38); color: var(--cream); }
+.hero .btn--ghost:hover { border-color: var(--cream); color: var(--cream); }
+
+/* Tres celulares escalonados a la derecha. */
+.hero__strips {
+  align-self: center;
+  gap: clamp(14px, 1.8vw, 26px);
+  padding: clamp(24px, 3vw, 40px) 0 clamp(48px, 6vw, 80px);
+}
+
+.strip:nth-child(1) { margin-top: clamp(48px, 7vw, 100px); }
+.strip:nth-child(2) { margin-top: 0; }
+.strip:nth-child(3) { margin-top: clamp(48px, 7vw, 100px); }
+
+/* ==========================================================================
+   MARCO DE IPHONE — hero (.strip) y grilla (.reel__frame)
+   ========================================================================== */
+
+.strip,
+.reel__frame {
+  aspect-ratio: 9 / 18.4;
+  border: var(--bezel) solid var(--phone-black);
+  border-radius: var(--phone-r);
+  background: var(--phone-black);
+  box-shadow:
+    0 0 0 1px var(--phone-edge),
+    0 0 0 2.5px #2a1e17,
+    0 38px 60px -32px rgba(21, 14, 10, .6),
+    0 12px 24px -16px rgba(21, 14, 10, .35);
+  isolation: isolate;
+}
+
+.hero .strip {
+  box-shadow:
+    0 0 0 1px #8a705e,
+    0 0 0 2.5px #1a120d,
+    0 50px 80px -30px rgba(0, 0, 0, .7);
+}
+
+/* Isla dinámica, por encima del video. */
+.strip::after,
+.reel__frame:not(.reel__frame--empty)::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  top: 3.2%;
+  left: 50%;
+  width: 27%;
+  height: 0;
+  padding-bottom: 7.5%;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: #050403;
+  pointer-events: none;
+}
+
+/* Reflejo del vidrio, muy sutil. */
+.strip::before,
+.reel__frame:not(.reel__frame--empty)::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(125deg, rgba(255, 255, 255, .14) 0%, rgba(255, 255, 255, 0) 32%);
+  pointer-events: none;
+}
+
+.strip img,
+.reel__frame img,
+.reel__video {
+  border-radius: calc(var(--phone-r) - var(--bezel));
+}
+
+.reel:hover { opacity: 1; }
+.reel .reel__frame { transition: transform .5s var(--ease-out); }
+.reel:hover .reel__frame { transform: translateY(-6px); }
+
+/* ==========================================================================
+   FRANJA DE MARCAS — banda latte con logos en chocolate
+   ========================================================================== */
+
+.logos {
+  background: var(--latte);
+  border-color: var(--hair);
+}
+
+.logos::before { background: linear-gradient(90deg, var(--latte), rgba(236, 226, 214, 0)); }
+.logos::after  { background: linear-gradient(-90deg, var(--latte), rgba(236, 226, 214, 0)); }
+
+.logos__track img {
+  /* Negro → marrón: el sepia sobre gris oscuro da el chocolate de la paleta. */
+  filter: brightness(0) invert(.22) sepia(.9) saturate(1.6) hue-rotate(-12deg);
+  opacity: .62;
+}
+
+/* ==========================================================================
+   TÍTULOS DE SECCIÓN — en script, centrados, con rótulo espaciado debajo
+   ========================================================================== */
+
+.sec-head {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding-bottom: 0;
+  border-bottom: 0;
+  text-align: center;
+}
+
+.sec-head__title {
+  font: 400 clamp(56px, 7.4vw, 104px)/.95 var(--script);
+  letter-spacing: 0;
+  color: var(--chocolate);
+}
+
+.sec-head__meta {
+  gap: 14px;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: .3em;
+  color: var(--cafe);
+}
+
+.sec-head__meta::before,
+.sec-head__meta::after {
+  content: "";
+  width: clamp(28px, 5vw, 56px);
+  height: 1px;
+  background: var(--caramel);
+  opacity: .55;
+}
+
+/* ==========================================================================
+   SOBRE MÍ — retrato en arco, título en script
+   ========================================================================== */
+
+.sobre {
+  background: transparent;
+  padding-top: var(--section-y);
+}
+
+.rule-head { gap: 24px; }
+
+.rule-head__label {
+  font: 400 clamp(56px, 7vw, 96px)/.9 var(--script);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--chocolate);
+}
+
+.rule-head__line { background: var(--caramel); opacity: .45; }
+
+.rule-head__meta {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: .3em;
+  color: var(--cafe);
+}
+
+.sobre__grid { align-items: center; }
+
+.sobre__aside {
+  position: relative;
+  padding: 18px 18px 0;
+}
+
+/* Filete caramelo desfasado detrás de la foto, siguiendo el arco. */
+.sobre__aside::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 36px;
+  aspect-ratio: 3 / 4;
+  border: 1px solid var(--caramel);
+  border-radius: 999px 999px 6px 6px;
+  opacity: .7;
+  pointer-events: none;
+}
+
+.portrait {
+  border-radius: 999px 999px 6px 6px;
+  background: var(--latte);
+  box-shadow:
+    0 40px 70px -40px rgba(43, 29, 22, .55),
+    0 2px 6px rgba(43, 29, 22, .08);
+}
+
+.portrait img { object-position: 50% 20%; }
+
+.portrait__caption {
+  border-top-color: var(--hair-strong);
+  padding-top: 12px;
+}
+
+.portrait__caption span:first-child {
+  font: 500 italic 19px/1.2 var(--serif);
+  color: var(--espresso);
+}
+
+.portrait__caption span:last-child {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--cafe);
+}
+
+.sobre__hi {
+  font: 500 italic clamp(34px, 4.4vw, 56px)/1.05 var(--serif);
+  letter-spacing: -.01em;
+  color: var(--espresso);
+}
+
+.sobre__lead {
+  font: 500 clamp(21px, 2.4vw, 26px)/1.45 var(--serif);
+  color: var(--chocolate);
+}
+
+.sobre__p {
+  font: 300 clamp(15.5px, 1.6vw, 17px)/1.8 var(--sans);
+  color: var(--ink-soft);
+}
+
+/* En el celu, el retrato deja de llevar el título adentro: arco centrado,
+   título en script arriba y el texto debajo, como la página "Get to know me". */
+@media (max-width: 860px) {
+  .sobre .wrap { position: static; }
+
+  .sobre .rule-head {
+    position: static;
+    width: auto;
+    margin: 0 0 32px;
+    padding: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .sobre .rule-head__label,
+  .sobre .rule-head__meta {
+    color: inherit;
+    text-shadow: none;
+  }
+
+  .sobre .rule-head__label { color: var(--chocolate); }
+  .sobre .rule-head__meta { color: var(--cafe); }
+
+  .sobre__grid {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+  }
+
+  .sobre__aside,
+  .sobre__body { display: block; }
+
+  .sobre__aside { width: min(82%, 340px); }
+  .sobre__body { margin-top: 36px; }
+
+  .portrait { grid-area: auto; }
+  .portrait::before,
+  .portrait::after { display: none; }
+
+  .portrait__caption { display: flex; }
+
+  .sobre__hi {
+    grid-area: auto;
+    align-self: auto;
+    margin: 0 0 22px;
+    padding: 0;
+    font-size: clamp(34px, 9vw, 44px);
+    color: var(--espresso);
+  }
+
+  .sobre__lead { margin-top: 0; }
+}
+
+/* ==========================================================================
+   RESULTADOS — números en Anton sobre una tarjeta crema
+   ========================================================================== */
+
+.nums {
+  margin-top: clamp(32px, 5vw, 48px);
+  padding: clamp(8px, 1.4vw, 16px) clamp(20px, 3vw, 40px);
+  background: rgba(251, 248, 243, .78);
+  border: 1px solid var(--hair);
+  border-radius: 4px;
+  box-shadow: 0 30px 60px -44px rgba(43, 29, 22, .5);
+}
+
+.num { border-right-color: var(--hair); }
+
+.num__v {
+  font: 400 clamp(46px, 5.6vw, 84px)/.95 var(--display);
+  letter-spacing: .01em;
+  color: var(--chocolate);
+}
+
+.num--main .num__v { font-size: clamp(56px, 7.4vw, 112px); }
+
+.num__l { color: var(--grey-6); }
+.num__l span { font-size: 10.5px; font-weight: 500; line-height: 1.5; color: var(--cafe); }
+.num__l b { font: 500 italic 16px/1.3 var(--serif); color: var(--espresso); }
+
+.num__bar {
+  height: 2px;
+  background: linear-gradient(var(--caramel), var(--caramel)) 0 0 / max(var(--p), 3px) 100% no-repeat, var(--hair);
+}
+
+.nums__foot {
+  border-top: 0;
+  justify-content: center;
+  gap: 6px 36px;
+  padding-top: 18px;
+  font-size: 10px;
+  color: var(--grey-6);
+}
+
+@media (max-width: 860px) {
+  .num,
+  .num + .num { border-bottom-color: var(--hair); }
+}
+
+/* ==========================================================================
+   PORTFOLIO — "Mi trabajo" en celulares
+   ========================================================================== */
+
+.tabs {
+  justify-content: center;
+  padding: clamp(26px, 4vw, 36px) 0 clamp(36px, 5vw, 52px);
+}
+
+.tab {
+  min-height: 42px;
+  padding: 0 20px;
+  border-color: var(--hair-strong);
+  background: rgba(251, 248, 243, .7);
+  color: var(--ink-soft);
+  font: 500 10.5px/1 var(--sans);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.tab:hover { border-color: var(--espresso); }
+
+.tab[aria-selected="true"] {
+  background: var(--espresso);
+  border-color: var(--espresso);
+  color: var(--cream);
+}
+
+.group { margin-bottom: clamp(56px, 8vw, 88px); }
+
+.group__head {
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: clamp(24px, 3vw, 36px);
+}
+
+.group__head h3 {
+  font: 500 italic clamp(22px, 2.4vw, 28px)/1.1 var(--serif);
+  color: var(--espresso);
+}
+
+.group__head span {
+  font: 500 10.5px/1 var(--sans);
+  letter-spacing: .2em;
+  color: var(--caramel);
+}
+
+.group__head span::before { content: "— "; }
+
+.reels {
+  grid-template-columns: repeat(auto-fill, minmax(min(44%, 210px), 1fr));
+  gap: clamp(18px, 2.6vw, 40px) clamp(14px, 2.2vw, 32px);
+}
+
+/* Grupos de 2 o 3 videos: centrados, no pegados a la izquierda. */
+@media (min-width: 861px) {
+  .reels {
+    grid-template-columns: repeat(auto-fit, minmax(0, 230px));
+    justify-content: center;
+  }
+}
+
+.reel__meta {
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--cafe);
+}
+
+.reel__arrow { color: var(--caramel); }
+
+/* ==========================================================================
+   LO QUE HAGO + PROCESO — banda latte
+   ========================================================================== */
+
+.servicios {
+  background: var(--latte);
+  border-top: 1px solid var(--hair);
+  border-bottom: 1px solid var(--hair);
+}
+
+.cards {
+  margin-top: clamp(32px, 5vw, 52px);
+  gap: clamp(12px, 1.6vw, 20px);
+  background: transparent;
+}
+
+.card {
+  position: relative;
+  background: var(--cream-2);
+  border: 1px solid var(--hair);
+  border-radius: 4px;
+  text-align: center;
+  padding: clamp(36px, 4.4vw, 52px) clamp(22px, 3vw, 36px);
+}
+
+.card:hover { background: #fff; }
+
+.card__num {
+  font: 400 clamp(40px, 4vw, 52px)/1 var(--script);
+  color: var(--caramel);
+}
+
+.card__title {
+  margin: 14px 0 12px;
+  font: 400 clamp(28px, 3vw, 36px)/1 var(--display);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--chocolate);
+}
+
+.card__text {
+  max-width: 28ch;
+  margin: 0 auto;
+  font: 400 clamp(17px, 1.6vw, 19px)/1.45 var(--serif);
+  color: var(--ink-soft);
+}
+
+.listrow__label {
+  font: 400 clamp(46px, 4.6vw, 64px)/.9 var(--script);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--chocolate);
+}
+
+.proceso__meta {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: .26em;
+  color: var(--cafe);
+}
+
+.proceso__count { color: var(--espresso); }
+
+.pstep {
+  background: rgba(251, 248, 243, .85);
+  border-color: var(--hair);
+  border-radius: 4px;
+}
+
+.pstep__icon { color: var(--caramel-soft); }
+
+.pstep__t {
+  font: 600 clamp(19px, 1.6vw, 22px)/1.2 var(--serif);
+  letter-spacing: 0;
+  color: var(--espresso);
+}
+
+.pstep__d {
+  font: 300 14.5px/1.6 var(--sans);
+  color: var(--ink-soft);
+}
+
+.pstep.is-active {
+  background: var(--espresso);
+  border-color: var(--espresso);
+}
+
+.pstep.is-active .pstep__icon { color: var(--caramel-soft); }
+.pstep.is-active .pstep__t { color: var(--cream); }
+.pstep.is-active .pstep__d { color: rgba(247, 242, 235, .72); }
+
+.proceso__bar { background: var(--hair); }
+.proceso__bar-fill { background: var(--chocolate); }
+
+@media (max-width: 860px) {
+  .proceso__aside { align-items: center; }
+}
+
+/* ==========================================================================
+   MIS HERRAMIENTAS
+   ========================================================================== */
+
+.herramientas { padding-top: var(--section-y); }
+
+.tools {
+  margin-top: clamp(32px, 5vw, 52px);
+  gap: clamp(10px, 1.4vw, 16px);
+  background: transparent;
+}
+
+.tool {
+  background: rgba(251, 248, 243, .78);
+  border: 1px solid var(--hair);
+  border-radius: 4px;
+  text-align: center;
+}
+
+.tool:hover { background: #fff; }
+
+.tool__icon {
+  margin: 0 auto;
+  width: 34px;
+  height: 34px;
+  color: var(--caramel);
+}
+
+.tool__name {
+  font: 600 clamp(19px, 1.7vw, 22px)/1.2 var(--serif);
+  color: var(--espresso);
+}
+
+.tool__text {
+  font: 300 14px/1.55 var(--sans);
+  color: var(--ink-soft);
+}
+
+/* ==========================================================================
+   POR QUÉ — banda oscura, como "My Services" de la referencia
+   ========================================================================== */
+
+.why {
+  position: relative;
+  padding: var(--section-y) var(--gutter);
+  background:
+    radial-gradient(80% 120% at 85% 0%, rgba(122, 90, 69, .5), rgba(43, 29, 22, 0) 60%),
+    var(--espresso);
+  color: var(--cream);
+  overflow: hidden;
+}
+
+.why::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: .2;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  pointer-events: none;
+}
+
+.why__inner { position: relative; z-index: 1; align-items: center; }
+
+.why__title {
+  font: 400 clamp(54px, 6.6vw, 96px)/.95 var(--script);
+  letter-spacing: 0;
+  color: var(--cream);
+}
+
+.why__list li {
+  border-top-color: rgba(247, 242, 235, .14);
+  font: 400 clamp(19px, 2vw, 23px)/1.4 var(--serif);
+  color: rgba(247, 242, 235, .9);
+}
+
+.why__list li:last-child { border-bottom-color: rgba(247, 242, 235, .14); }
+.why__list li span:first-child { color: var(--caramel-soft); font-family: var(--sans); font-size: .8em; }
+
+/* ==========================================================================
+   FOOTER — nombre gigante con firma
+   ========================================================================== */
+
+.footer {
+  border-top: 0;
+  text-align: left;
+}
+
+.footer__cta {
+  font: 500 italic clamp(34px, 5vw, 64px)/1.05 var(--serif);
+  letter-spacing: -.01em;
+  color: var(--espresso);
+}
+
+.footer__wa {
+  background: var(--espresso);
+  color: var(--cream);
+  font: 500 11.5px/1.3 var(--sans);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.footer__wa:hover { background: var(--chocolate); color: var(--cream); }
+
+.footer__mail {
+  font: 400 italic 18px/1.4 var(--serif);
+  color: var(--ink-soft);
+  border-bottom-color: var(--hair-strong);
+}
+
+.footer__meta { font-size: 10.5px; font-weight: 500; color: var(--cafe); }
+.footer__meta a { color: var(--chocolate); }
+
+/* "TATIANA" en Anton mide ~3,1 em: el tamaño llena el ancho útil. La firma
+   cae encima, a la derecha, como en la tapa. */
+.footer__big {
+  position: relative;
+  margin-top: clamp(40px, 7vw, 88px);
+  margin-bottom: calc(clamp(40px, 6vw, 56px) * -1 - .06em);
+  font: 400 calc((100vw - 2 * var(--gutter)) / 3.12)/.84 var(--display);
+  letter-spacing: .02em;
+  color: var(--chocolate);
+}
+
+.footer__big span {
+  position: absolute;
+  right: 2%;
+  bottom: 28%;
+  font: 400 .36em/1 var(--script);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--caramel-soft);
+  text-shadow: 0 2px 14px rgba(43, 29, 22, .25);
+  transform: rotate(-5deg);
+}
+
+/* ==========================================================================
+   CELU
+   ========================================================================== */
+
+@media (max-width: 860px) {
+  .hero { padding-bottom: 8px; }
+
+  .hero__inner {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "name" "strips" "copy";
+    grid-template-rows: auto;
+  }
+
+  .hero__name {
+    padding-top: 12px;
+    text-align: center;
+  }
+
+  .hero__kicker { font-size: 11px; letter-spacing: .28em; }
+
+  /* "TATIANA" ocupa el ancho de la pantalla. */
+  .hero__first { font-size: calc((100vw - 2 * var(--gutter)) / 3.5); }
+
+  .hero__last {
+    margin-right: 2%;
+    font-size: calc((100vw - 2 * var(--gutter)) / 4.6);
+  }
+
+  .hero__strips {
+    gap: 10px;
+    padding: 20px 0 40px;
+  }
+
+  .strip:nth-child(1),
+  .strip:nth-child(3) { margin-top: 36px; }
+
+  :root {
+    --bezel: 4px;
+    --phone-r: 18px;
+  }
+
+  .hero__copy { text-align: center; padding-bottom: 32px; }
+  .hero__title { max-width: none; margin: 0 auto; }
+  .hero__lead { margin-left: auto; margin-right: auto; }
+  .hero__actions { justify-content: center; }
+
+  .sec-head__title { font-size: clamp(54px, 15vw, 72px); }
+  .rule-head__label { font-size: clamp(54px, 15vw, 72px); }
+
+  .reels {
+    gap: 26px 16px;
+    padding: 0 4px;
+  }
+
+  .reel .reel__frame { --phone-r: 22px; --bezel: 5px; }
+
+  .proceso__aside { flex-direction: column; align-items: center; gap: 6px; }
+  .listrow__label { flex: none; }
+
+  .why__title { text-align: center; max-width: none; }
+
+  .footer__big span { bottom: 20%; }
+}
+
+@media (max-width: 520px) {
+  .hero__actions .btn { font-size: 10.5px; letter-spacing: .12em; }
+  .num__l { flex-direction: column; gap: 6px; }
+}

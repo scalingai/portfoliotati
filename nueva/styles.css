@@ -1,0 +1,1456 @@
+/* ==========================================================================
+   Tatiana Orquera — Portfolio
+   Implemented from the Claude Design handoff:
+   tatiana-orquera-portfolio/project/Portfolio Tatiana Orquera.dc.html
+   ========================================================================== */
+
+:root {
+  --ink: #111111;
+  --sand: #f1f0ee;
+  --sand-deep: #e6e5e2;
+
+  --grey-1: #1f1f1f;
+  --grey-2: #333333;
+  --grey-3: #4a4a4a;
+  --grey-4: #5a5a5a;
+  --grey-5: #6b6b6b;
+  --grey-6: #8a8a8a;
+  --grey-7: #9a9a9a;
+  --grey-8: #b5b5b5;
+  --grey-9: #c9c9c9;
+
+  --line: #ececec;
+  --line-strong: #e2e2e2;
+  --hover-bg: #fafafa;
+
+  --sans: "DM Sans", Helvetica, Arial, sans-serif;
+  --display: "Archivo", Helvetica, Arial, sans-serif;
+
+  --wrap: 1280px;
+  --gutter: clamp(20px, 5vw, 32px);
+  --section-y: clamp(64px, 10vw, 104px);
+
+  /* Desacelera al final: la entrada frena sola en vez de cortarse. */
+  --ease-out: cubic-bezier(.22, .61, .36, 1);
+
+  /* Alto real de la barra: 10px + alto del control + 10px + 2px de bordes.
+     En desktop manda el CTA (44px); en mobile, la hamburguesa (46px).
+     El hero se sube exactamente esto, así arranca pegado al borde superior
+     y la barra flota encima sin dejar una franja blanca. */
+  --nav-control-h: 44px;
+  --nav-h: calc(12px + 10px + var(--nav-control-h) + 10px + 2px);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: #ffffff;
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a { color: var(--ink); text-decoration: none; }
+a:hover { color: var(--grey-5); }
+button { font-family: inherit; }
+::selection { background: var(--ink); color: #fff; }
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.wrap {
+  max-width: var(--wrap);
+  margin: 0 auto;
+}
+
+/* Display type shares one recipe: Archivo at 125% width, tight tracking. */
+.hero__title,
+.nav__logo,
+.sobre__hi,
+.sec-head__title,
+.why__title,
+.footer__cta {
+  font-family: var(--display);
+  font-weight: 700;
+  font-stretch: 125%;
+}
+
+/* ==========================================================================
+   NAV
+   ========================================================================== */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  padding: 12px clamp(16px, 4vw, 32px) 0;
+}
+
+.nav__bar {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 10px 10px clamp(16px, 3vw, 22px);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .55);
+  background: linear-gradient(180deg, rgba(255, 255, 255, .66) 0%, rgba(255, 255, 255, .34) 100%);
+  backdrop-filter: blur(22px) saturate(185%);
+  -webkit-backdrop-filter: blur(22px) saturate(185%);
+  box-shadow:
+    0 10px 34px -12px rgba(17, 17, 17, .22),
+    inset 0 1px 0 rgba(255, 255, 255, .85),
+    inset 0 -1px 0 rgba(255, 255, 255, .35);
+}
+
+.nav__logo {
+  font-size: clamp(15px, 2.4vw, 19px);
+  line-height: 1;
+  letter-spacing: -.01em;
+  white-space: nowrap;
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 26px);
+  font: 400 13px/1 var(--sans);
+  color: var(--grey-5);
+}
+
+.nav__links a {
+  color: var(--grey-5);
+  padding: 6px 0;
+}
+
+.nav__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 0 22px;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 999px;
+  font: 500 13px/1 var(--sans);
+  white-space: nowrap;
+  transition: background .18s ease;
+}
+
+.nav__cta:hover { background: #3a3a3a; color: #fff; }
+
+.ico-wa {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+  fill: currentColor;
+}
+
+.nav__burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 46px;
+  height: 46px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 999px;
+  background: var(--ink);
+  cursor: pointer;
+}
+
+.nav__burger span {
+  display: block;
+  height: 1.5px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+.nav__panel {
+  max-width: var(--wrap);
+  margin: 10px auto 0;
+  padding: 14px;
+  border-radius: 26px;
+  border: 1px solid rgba(255, 255, 255, .55);
+  background: linear-gradient(180deg, rgba(255, 255, 255, .86), rgba(255, 255, 255, .68));
+  backdrop-filter: blur(22px) saturate(185%);
+  -webkit-backdrop-filter: blur(22px) saturate(185%);
+  box-shadow: 0 18px 44px -18px rgba(17, 17, 17, .3);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav__panel[hidden] { display: none; }
+
+.nav__panel a {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 14px;
+  border-radius: 16px;
+  font: 500 16px/1 var(--sans);
+  color: var(--ink);
+}
+
+.nav__panel a:active { background: rgba(17, 17, 17, .06); }
+
+.nav__panel .nav__panel-cta {
+  gap: 9px;
+  justify-content: center;
+  min-height: 50px;
+  margin-top: 6px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 15px;
+}
+
+/* Prototype swaps desktop/mobile nav at matchMedia("(max-width: 860px)"). */
+@media (max-width: 860px) {
+  :root { --nav-control-h: 46px; }
+
+  .nav__links,
+  .nav__cta { display: none; }
+  .nav__burger { display: flex; }
+}
+
+@media (min-width: 861px) {
+  .nav__panel { display: none; }
+}
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  min-height: min(100vh, 900px);
+  margin-top: calc(var(--nav-h) * -1);
+  padding: calc(var(--nav-h) + clamp(28px, 5vw, 56px)) var(--gutter) clamp(20px, 3vw, 28px);
+  background: var(--sand);
+  color: var(--ink);
+}
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.hero__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hero__spot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 560px;
+  height: 560px;
+  margin: -280px 0 0 -280px;
+  border-radius: 50%;
+  filter: blur(30px);
+  background: radial-gradient(circle, rgba(255, 255, 255, .85), rgba(255, 255, 255, 0) 62%);
+  transform: translate3d(-999px, -999px, 0);
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+
+.hero__noise {
+  position: absolute;
+  inset: 0;
+  opacity: .13;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--wrap);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  grid-template-areas: "strips copy";
+  column-gap: clamp(36px, 5vw, 72px);
+  align-items: end;
+}
+
+/* Tres portadas escalonadas, como el carrusel destacado de Kommakomma. */
+.hero__strips {
+  grid-area: strips;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(8px, 1.2vw, 14px);
+  align-items: start;
+  padding-bottom: clamp(40px, 5vw, 64px);
+}
+
+.strip {
+  position: relative;
+  display: block;
+  aspect-ratio: 9 / 16;
+  border-radius: clamp(12px, 1.4vw, 18px);
+  overflow: hidden;
+  background: var(--sand-deep);
+  border: 1px solid rgba(255, 255, 255, .6);
+  box-shadow: 0 24px 48px -24px rgba(17, 17, 17, .35);
+  transition: transform .5s var(--ease-out);
+}
+
+.strip:nth-child(2) { margin-top: clamp(24px, 4vw, 56px); }
+.strip:nth-child(3) { margin-top: clamp(48px, 8vw, 112px); }
+.strip:hover { transform: translateY(-6px); }
+
+.strip img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero__copy {
+  grid-area: copy;
+  padding-bottom: clamp(40px, 5vw, 64px);
+}
+
+.hero__title {
+  margin: 0;
+  font-size: clamp(34px, 5vw, 64px);
+  line-height: 1.02;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+  max-width: 14ch;
+}
+
+.hero__title span { color: rgba(17, 17, 17, .38); }
+
+.hero__lead {
+  max-width: 440px;
+  margin: clamp(18px, 2.4vw, 26px) 0 0;
+  font: 400 clamp(15px, 1.5vw, 17px)/1.55 var(--sans);
+  color: var(--grey-4);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: clamp(26px, 3.4vw, 36px);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 50px;
+  padding: 0 26px;
+  border-radius: 999px;
+  font: 500 14px/1 var(--sans);
+  transition: background .18s ease, border-color .18s ease;
+}
+
+.btn--solid { background: var(--ink); color: #fff; }
+.btn--solid:hover { background: #3a3a3a; color: #fff; }
+
+.btn--ghost { border: 1px solid rgba(17, 17, 17, .22); color: var(--ink); }
+.btn--ghost:hover { border-color: var(--ink); color: var(--ink); }
+
+@media (max-width: 860px) {
+  /* Apilado, el contenido ya es más alto que la pantalla: sin alto mínimo
+     no queda un hueco arriba de las portadas. */
+  .hero { min-height: 0; }
+
+  .hero__inner {
+    grid-template-columns: 1fr;
+    grid-template-areas: "strips" "copy";
+  }
+
+  .hero__strips { padding-bottom: 36px; }
+  .hero__copy { padding-bottom: 16px; }
+  .hero__title { max-width: none; }
+}
+
+/* En el celu los dos botones van en la misma línea: más bajos y angostos,
+   cada uno de su ancho. Si la pantalla no da (menos de ~360 px), bajan. */
+@media (max-width: 520px) {
+  .hero__actions { gap: 8px; }
+
+  .logos { padding: 18px 0; }
+
+  .hero__actions .btn {
+    min-height: 44px;
+    padding: 0 15px;
+    gap: 7px;
+    font-size: 13px;
+  }
+
+  .hero__actions .ico-wa { width: 15px; height: 15px; }
+}
+
+/* ==========================================================================
+   MARCAS (franja de logos)
+   ========================================================================== */
+
+/* Logos reales en un solo gris (brightness(0) los pasa a negro y la opacidad
+   los aclara), sobre la arena del sitio. Cada logo tiene su alto para que
+   todos pesen parecido a la vista: un monograma alto y una palabra larga no
+   pueden ir a la misma altura. */
+.logos {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(22px, 3.4vw, 34px) 0;
+  background: var(--sand);
+  border-top: 1px solid rgba(17, 17, 17, .08);
+  border-bottom: 1px solid rgba(17, 17, 17, .08);
+}
+
+/* Los logos se desvanecen en los bordes con dos degradés del color de fondo,
+   fijos encima del track. Una máscara en la franja desvanecería también el
+   fondo, y en el track se movería con él. */
+.logos::before,
+.logos::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 10vw;
+  pointer-events: none;
+}
+
+.logos::before { left: 0;  background: linear-gradient(90deg, var(--sand), rgba(241, 240, 238, 0)); }
+.logos::after  { right: 0; background: linear-gradient(-90deg, var(--sand), rgba(241, 240, 238, 0)); }
+
+.logos__track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  animation: tickerScroll 40s linear infinite;
+}
+
+.logos__track li {
+  flex: none;
+  padding: 0 clamp(28px, 5vw, 56px);
+}
+
+.logos__track img {
+  display: block;
+  width: auto;
+  filter: brightness(0);
+  opacity: .5;
+}
+
+.logo--dove { height: clamp(34px, 4.6vw, 46px); }
+.logo--hb   { height: clamp(22px, 2.8vw, 28px); }
+.logo--jt   { height: clamp(44px, 5.6vw, 56px); }
+.logo--lela { height: clamp(24px, 3vw, 30px); }
+.logo--mny  { height: clamp(34px, 4.4vw, 44px); } /* el SVG trae 10 px de aire por lado */
+
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ==========================================================================
+   SECTION HEADINGS
+   ========================================================================== */
+
+/* Label + hairline + meta (Sobre mí) */
+.rule-head {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: clamp(36px, 6vw, 56px);
+}
+
+.rule-head__label {
+  margin: 0;
+  font: 400 11px/1 var(--sans);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--grey-6);
+  white-space: nowrap;
+}
+
+.rule-head__line {
+  flex: 1;
+  height: 1px;
+  background: rgba(17, 17, 17, .12);
+  display: block;
+}
+
+.rule-head__meta {
+  font: 400 11px/1 var(--sans);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--grey-8);
+  white-space: nowrap;
+}
+
+/* Big title + count over a 1px rule */
+.sec-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: clamp(24px, 4vw, 36px);
+  border-bottom: 1px solid var(--ink);
+}
+
+.sec-head__title {
+  margin: 0;
+  font-size: clamp(28px, 4.4vw, 44px);
+  line-height: 1;
+  letter-spacing: -.02em;
+}
+
+.sec-head__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font: 400 11px/1 var(--sans);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--grey-6);
+}
+
+/* ==========================================================================
+   SOBRE MÍ
+   ========================================================================== */
+
+.sobre {
+  padding: clamp(28px, 6vw, 72px) var(--gutter) var(--section-y);
+  background: var(--sand);
+  scroll-margin-top: 88px;
+}
+
+.sobre__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: clamp(36px, 5vw, 72px);
+  align-items: start;
+}
+
+.sobre__aside {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  max-width: 440px;
+}
+
+.portrait {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  margin: 0;
+  background: var(--sand-deep);
+  border-radius: 26px;
+  overflow: hidden;
+  box-shadow:
+    0 40px 70px -40px rgba(17, 17, 17, .45),
+    0 2px 6px rgba(17, 17, 17, .06);
+}
+
+.portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.portrait__caption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(17, 17, 17, .12);
+}
+
+.portrait__caption span:first-child {
+  font: 500 13px/1.3 var(--sans);
+  color: var(--ink);
+}
+
+.portrait__caption span:last-child {
+  font: 400 11px/1.3 var(--sans);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--grey-7);
+}
+
+.sobre__body { max-width: 680px; }
+
+.sobre__hi {
+  margin: 0 0 clamp(22px, 4vw, 32px);
+  font-size: clamp(26px, 4.6vw, 46px);
+  line-height: 1.08;
+  letter-spacing: -.02em;
+  color: var(--ink);
+}
+
+.sobre__lead {
+  margin: 0 0 24px;
+  font: 400 clamp(18px, 2.4vw, 21px)/1.6 var(--sans);
+  color: var(--grey-1);
+  text-wrap: pretty;
+}
+
+.sobre__p {
+  margin: 0 0 22px;
+  font: 400 clamp(15.5px, 2vw, 17px)/1.75 var(--sans);
+  color: var(--grey-4);
+  text-wrap: pretty;
+}
+
+.sobre__p:last-of-type { margin-bottom: 0; }
+
+/* En mobile el "Hola, soy Tatiana." va adentro de la foto, abajo, sobre un
+   degradé oscuro, y la descripción sigue pegada sin la línea del pie de foto.
+   Aside y body pasan a display: contents para que el título comparta la celda
+   del retrato sin duplicarlo en el HTML. */
+@media (max-width: 860px) {
+  .sobre__grid {
+    grid-template-columns: minmax(0, 440px);
+    row-gap: 0;
+  }
+
+  .sobre__aside,
+  .sobre__body { display: contents; }
+
+  .portrait { grid-area: 1 / 1; }
+
+  /* El rótulo "Sobre mí · Buenos Aires" va arriba, adentro de la foto,
+     sobre su propio degradé. */
+  .sobre .wrap { position: relative; }
+
+  .sobre .rule-head {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: min(100%, 440px);
+    margin: 0;
+    padding: 20px 22px;
+    justify-content: space-between;
+  }
+
+  .sobre .rule-head__line { display: none; }
+
+  .sobre .rule-head__label,
+  .sobre .rule-head__meta {
+    color: #fff;
+    text-shadow: 0 1px 10px rgba(17, 17, 17, .45);
+  }
+
+  .portrait::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 1;
+    height: 26%;
+    background: linear-gradient(to bottom, rgba(17, 17, 17, .58), rgba(17, 17, 17, 0));
+    pointer-events: none;
+  }
+
+  .portrait::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 42%;
+    background: linear-gradient(to top, rgba(17, 17, 17, .66), rgba(17, 17, 17, 0));
+    pointer-events: none;
+  }
+
+  .portrait__caption { display: none; }
+
+  .sobre__hi {
+    grid-area: 1 / 1;
+    align-self: end;
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    padding: 0 22px 22px;
+    font-size: clamp(28px, 7.6vw, 40px);
+    color: #fff;
+  }
+
+  .sobre__lead { margin-top: 28px; }
+}
+
+/* 1px gaps show the container colour as hairlines between cells. */
+/* ==========================================================================
+   LO QUE HAGO
+   ========================================================================== */
+
+.servicios {
+  /* Ancho de la columna del label del proceso ("PROCESO"). Era compartido con
+     .listrow cuando existia el bloque de formatos; hoy lo usa solo el grid del
+     proceso, pero sigue como variable porque el label vive fuera de ese grid. */
+  --label-col: 180px;
+  --label-gap: 48px;
+  padding: var(--section-y) var(--gutter);
+  scroll-margin-top: 88px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 1px;
+  background: var(--line);
+}
+
+.card {
+  background: #fff;
+  padding: clamp(28px, 4vw, 40px) clamp(22px, 3vw, 32px) clamp(32px, 4vw, 44px);
+  transition: background .18s ease;
+}
+
+.card:hover { background: var(--hover-bg); }
+
+.card__num {
+  font: 400 11px/1 var(--sans);
+  color: var(--grey-8);
+}
+
+.card__title {
+  margin: 22px 0 12px;
+  font: 500 clamp(19px, 2.6vw, 22px)/1.2 var(--sans);
+}
+
+.card__text {
+  margin: 0;
+  font: 400 15px/1.65 var(--sans);
+  color: var(--grey-5);
+}
+
+.listrow__label {
+  flex: 0 0 var(--label-col);
+  margin: 0;
+  font: 400 11px/1 var(--sans);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--grey-6);
+}
+
+/* ==========================================================================
+   MIS HERRAMIENTAS
+   ========================================================================== */
+
+/* Mismo lenguaje que las tarjetas de "Lo que hago": celdas blancas separadas
+   por una línea de 1px. 5 en fila en escritorio, 2 en el celu (la quinta
+   ocupa el ancho entero para que no quede un hueco). */
+.herramientas {
+  padding: 0 var(--gutter) var(--section-y);
+  scroll-margin-top: 88px;
+}
+
+.tools {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--line);
+}
+
+.tool {
+  background: #fff;
+  padding: clamp(22px, 3vw, 32px) clamp(18px, 2.4vw, 26px) clamp(24px, 3vw, 34px);
+  transition: background .18s ease;
+}
+
+.tool:hover { background: var(--hover-bg); }
+
+.tool__icon {
+  display: block;
+  width: 30px;
+  height: 30px;
+  color: var(--ink);
+}
+
+.tool__name {
+  margin: 18px 0 8px;
+  font: 500 clamp(16px, 1.6vw, 18px)/1.25 var(--sans);
+}
+
+.tool__text {
+  margin: 0;
+  font: 400 14px/1.55 var(--sans);
+  color: var(--grey-5);
+}
+
+@media (max-width: 860px) {
+  .tools { grid-template-columns: repeat(2, 1fr); }
+  .tool:last-child { grid-column: 1 / -1; }
+}
+
+@media (max-width: 520px) {
+  .tool { padding: 20px 16px 22px; }
+  .tool__icon { width: 26px; height: 26px; }
+  .tool__name { margin-top: 14px; font-size: 15.5px; }
+  .tool__text { font-size: 13.5px; }
+}
+
+/* ==========================================================================
+   PORTFOLIO
+   ========================================================================== */
+
+.portfolio {
+  padding: 0 var(--gutter) var(--section-y);
+  scroll-margin-top: 88px;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: clamp(22px, 4vw, 28px) 0 clamp(28px, 5vw, 36px);
+}
+
+.tab {
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font: 500 13px/1 var(--sans);
+  cursor: pointer;
+  background: #fff;
+  color: var(--grey-3);
+  transition: background .18s ease, color .18s ease, border-color .18s ease;
+}
+
+.tab:hover { border-color: var(--ink); }
+
+.tab[aria-selected="true"] {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+
+.group { margin-bottom: clamp(40px, 6vw, 56px); }
+.group--last { margin-bottom: 0; }
+
+/* Filtering: the section carries the active category. */
+.portfolio[data-cat="marcas"] .group:not([data-cat="marcas"]),
+.portfolio[data-cat="fit"]  .group:not([data-cat="fit"]),
+.portfolio[data-cat="moda"] .group:not([data-cat="moda"]),
+.portfolio[data-cat="res"]  .group:not([data-cat="res"]) { display: none; }
+
+/* The visible group is always the last one — drop its trailing margin. */
+.portfolio:not([data-cat="all"]) .group { margin-bottom: 0; }
+
+.group__head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.group__head h3 {
+  margin: 0;
+  font: 500 15px/1 var(--sans);
+}
+
+.group__head span {
+  font: 400 12px/1 var(--sans);
+  color: var(--grey-8);
+}
+
+.reels {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(46%, 240px), 1fr));
+  gap: clamp(12px, 2vw, 20px);
+}
+
+.reel {
+  display: block;
+  transition: opacity .18s ease;
+}
+
+.reel:hover { opacity: .86; }
+
+.reel__frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  background: #f4f4f4;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.reel__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Los primeros 3 s del reel en loop, encima de la portada. Arranca invisible
+   y aparece recién cuando reproduce (main.js le pone .is-playing): sin JS,
+   con movimiento reducido o si el video no carga, queda la portada fija. */
+.reel__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity .3s ease;
+  pointer-events: none;
+}
+
+.reel__video.is-playing { opacity: 1; }
+
+/* Empty state — mirrors the design's unfilled image slot. It disappears the
+   moment a real cover lands in assets/reels/ (see main.js). */
+.reel__frame--empty img { display: none; }
+
+.reel__frame--empty::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1.5px dashed rgba(17, 17, 17, .18);
+  border-radius: inherit;
+}
+
+.reel__frame--empty::after {
+  content: attr(data-placeholder);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  text-align: center;
+  font: 500 12px/1.4 var(--sans);
+  letter-spacing: .01em;
+  color: var(--grey-8);
+}
+
+.reel__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+  font: 400 13px/1.3 var(--sans);
+  color: var(--grey-3);
+}
+
+.reel__arrow { color: var(--grey-8); }
+
+/* ==========================================================================
+   PROCESO
+   ========================================================================== */
+
+.proceso {
+  --pstep-w: clamp(232px, 23vw, 296px);
+  --pstep-gap: clamp(12px, 1.4vw, 20px);
+
+  /* Sangra hasta los dos bordes anulando el padding de .servicios; el riel
+     necesita el ancho completo para poder salirse por la derecha. */
+  margin: clamp(48px, 7vw, 72px) calc(var(--gutter) * -1) 0;
+  scroll-margin-top: 88px;
+}
+
+/* Columna izquierda del resto de la seccion: mismo ancho y mismo gap que
+   .listrow, para que "PROCESO" caiga en la misma vertical que "FORMATOS". */
+.proceso__grid {
+  display: grid;
+  grid-template-columns: var(--label-col) 1fr;
+  column-gap: var(--label-gap);
+  /* Replica el borde izquierdo de .wrap: gutter, o el centrado del wrap
+     cuando la pantalla supera los 1280. */
+  padding-left: max(var(--gutter), calc((100% - var(--wrap)) / 2));
+}
+
+.proceso__aside {
+  align-self: start;
+  padding-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.proceso__meta {
+  font: 400 11px/1 var(--sans);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--grey-6);
+}
+
+.proceso__count { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* min-width: 0 o el riel, al desbordar, estira la columna del grid. */
+.proceso__main {
+  min-width: 0;
+  display: grid;
+  gap: clamp(14px, 1.8vw, 22px);
+}
+
+/* Modo carrusel (mobile, sin JS, movimiento reducido): el propio viewport
+   scrollea a mano. En modo pin el JS apaga el scroll y mueve el track. */
+.proceso__viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.proceso__viewport::-webkit-scrollbar { display: none; }
+
+.proceso__track {
+  display: flex;
+  align-items: stretch;
+  gap: var(--pstep-gap);
+  margin: 0;
+  /* El aire de entrada ya lo da la columna del label; aca solo queda el margen
+     vertical para que el hover de las tarjetas no se recorte. */
+  padding: 6px 0;
+  list-style: none;
+}
+
+/* Aire de salida. Ni el padding derecho del riel ni el margen del ultimo paso
+   entran en scrollWidth (comprobado); un item flex de verdad si. Como es un
+   pseudo-elemento no aparece en el arbol de accesibilidad: la lista sigue
+   teniendo 7 pasos. El gap ya aporta su parte, por eso se descuenta. */
+.proceso__track::after {
+  content: '';
+  flex: 0 0 max(0px, calc(var(--gutter) - var(--pstep-gap)));
+}
+
+.pstep {
+  flex: 0 0 var(--pstep-w);
+  scroll-snap-align: center;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 14px;
+  row-gap: 10px;
+  /* Igual que antes, el contenido se apoya abajo: la tarjeta es alta y el
+     bloque de texto anclado al pie es lo que le daba peso. */
+  align-content: end;
+  min-height: clamp(230px, 34vh, 340px);
+  padding: clamp(18px, 2vw, 26px);
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  background: #fff;
+  transition:
+    border-color .4s var(--ease-out),
+    background .4s var(--ease-out),
+    transform .4s var(--ease-out);
+}
+
+.pstep__icon {
+  width: clamp(30px, 2.8vw, 36px);
+  height: clamp(30px, 2.8vw, 36px);
+  color: var(--grey-7);
+  transition: color .4s var(--ease-out);
+}
+
+.pstep__t {
+  margin: 0;
+  font: 500 clamp(16px, 1.4vw, 19px)/1.3 var(--sans);
+  letter-spacing: -.01em;
+}
+
+.pstep__d {
+  grid-column: 1 / -1;
+  margin: 0;
+  font: 400 14px/1.55 var(--sans);
+  color: var(--grey-5);
+}
+
+/* El paso que esta en foco pasa a tinta plena; el resto queda en gris. */
+.pstep.is-active {
+  border-color: var(--ink);
+  background: var(--hover-bg);
+}
+
+.pstep.is-active .pstep__icon { color: var(--ink); }
+
+.pstep:hover { transform: translateY(-3px); }
+
+/* Dibujo del trazo. Igual que .js-reveal: el estado oculto solo existe si el
+   JS esta vivo para revertirlo — sin JS los iconos se ven enteros. */
+.js-proceso .pstep__icon > * {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.js-proceso .pstep.is-drawn .pstep__icon > * {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset .8s var(--ease-out);
+}
+
+.js-proceso .pstep.is-drawn .pstep__icon > *:nth-child(2) { transition-delay: .07s; }
+.js-proceso .pstep.is-drawn .pstep__icon > *:nth-child(3) { transition-delay: .14s; }
+.js-proceso .pstep.is-drawn .pstep__icon > *:nth-child(4) { transition-delay: .21s; }
+.js-proceso .pstep.is-drawn .pstep__icon > *:nth-child(5) { transition-delay: .28s; }
+.js-proceso .pstep.is-drawn .pstep__icon > *:nth-child(6) { transition-delay: .35s; }
+
+.proceso__bar {
+  position: relative;
+  height: 2px;
+  background: var(--line);
+}
+
+.proceso__bar-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: var(--ink);
+  transition: width .2s linear;
+}
+
+/* --- modo pin: lo activa el JS cuando hay ancho de sobra y no hay reduce --- */
+
+/* La banda se clava a media altura, no arriba de todo: asi las tarjetas de
+   servicio salen por arriba y los formatos entran por abajo mientras el riel
+   corre. El JS le da al contenedor el alto que sobra del riel, y ese sobrante
+   es exactamente el recorrido del sticky.
+
+   Sin alto fijo a proposito: la banda mide lo que mida su contenido y el JS
+   calcula el `top` que la centra. Con un alto en vh, una fuente de fallback o
+   un tamano de texto mas grande recortaban la tarjeta. */
+.proceso--pinned .proceso__stage { position: sticky; }
+
+.proceso--pinned .proceso__viewport {
+  overflow: hidden;
+  scroll-snap-type: none;
+}
+
+.proceso--pinned .proceso__track { will-change: transform; }
+.proceso--pinned .pstep { scroll-snap-align: none; }
+
+@media (max-width: 860px) {
+  /* En mobile los 7 pasos van uno abajo del otro. El riel horizontal pedia
+     arrastrar de costado para leer una lista que se lee sola scrolleando, y la
+     tarjeta de al lado tapaba a medias la que estabas leyendo.
+
+     Al no quedar sobrante horizontal, el JS mide travel = 0 y entra solo en
+     modo "static": apaga la barra, borra el contador y dibuja los 7 iconos.
+     No hay nada que cambiar del lado del JS. */
+  .proceso {
+    /* Se devuelve la sangria: sin riel que salga por la derecha, el bloque se
+       alinea con el resto de la seccion. */
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .proceso__grid {
+    grid-template-columns: 1fr;
+    row-gap: 18px;
+    padding-left: 0;
+  }
+
+  .proceso__aside {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-top: 0;
+  }
+
+  .proceso__viewport {
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+
+  .proceso__track {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* El espaciador de salida solo tiene sentido en horizontal. */
+  .proceso__track::after { display: none; }
+
+  /* Alto por contenido: siete tarjetas de 250px serian tres pantallas de aire. */
+  .pstep {
+    flex: 0 0 auto;
+    min-height: 0;
+    scroll-snap-align: none;
+  }
+}
+
+/* ==========================================================================
+   RESULTADOS
+   Números grandes separados por reglas finas (maqueta A de t_5225a700).
+   ========================================================================== */
+
+.resultados {
+  padding: 0 var(--gutter) var(--section-y);
+  scroll-margin-top: 88px;
+}
+
+.nums {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+}
+
+.num {
+  padding: clamp(22px, 3vw, 30px) clamp(20px, 2.4vw, 32px) clamp(24px, 3vw, 32px) 0;
+  border-right: 1px solid var(--line-strong);
+}
+
+.num + .num { padding-left: clamp(20px, 2.4vw, 32px); }
+.num:last-child { border-right: 0; }
+
+.num__v {
+  font-family: var(--display);
+  font-weight: 700;
+  font-stretch: 125%;
+  font-size: clamp(40px, 5.2vw, 76px);
+  line-height: .95;
+  letter-spacing: -.03em;
+  white-space: nowrap;
+}
+
+.num--main .num__v { font-size: clamp(48px, 7vw, 104px); }
+
+.num__l {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 14px;
+  margin: 18px 0 0;
+  font: 400 13px/1.4 var(--sans);
+  color: var(--grey-6);
+}
+
+.num__l b {
+  flex: none;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.num__bar {
+  display: block;
+  height: 3px;
+  margin-top: 16px;
+  border-radius: 3px;
+  background: linear-gradient(var(--ink), var(--ink)) 0 0 / max(var(--p), 3px) 100% no-repeat, var(--line-strong);
+}
+
+.nums__foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 20px;
+  margin: 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-strong);
+  font: 400 12px/1.5 var(--sans);
+  color: var(--grey-6);
+}
+
+@media (max-width: 860px) {
+  .nums { grid-template-columns: 1fr; }
+
+  .num,
+  .num + .num {
+    padding: 22px 0 26px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .num:last-child { border-bottom: 0; }
+}
+
+/* ==========================================================================
+   POR QUÉ TRABAJAR CONMIGO
+   ========================================================================== */
+
+.why { padding: 0 var(--gutter) var(--section-y); }
+
+.why__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(28px, 5vw, 56px);
+}
+
+.why__title {
+  flex: 1 1 300px;
+  margin: 0;
+  font-size: clamp(26px, 4.2vw, 44px);
+  line-height: 1.06;
+  letter-spacing: -.02em;
+  max-width: 420px;
+}
+
+.why__list {
+  flex: 2 1 420px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+}
+
+.why__list li {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 14px;
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+  font: 400 clamp(15.5px, 2.2vw, 17px)/1.6 var(--sans);
+  color: var(--grey-2);
+}
+
+.why__list li:last-child { border-bottom: 1px solid var(--line); }
+
+.why__list li span:first-child { color: var(--ink); }
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+
+.footer {
+  padding: clamp(48px, 8vw, 72px) var(--gutter) clamp(40px, 6vw, 56px);
+  border-top: 1px solid var(--ink);
+}
+
+.footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: clamp(28px, 5vw, 48px);
+}
+
+.footer__main {
+  flex: 1 1 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer__cta {
+  margin: 0 0 22px;
+  font-size: clamp(28px, 5.4vw, 60px);
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+}
+
+.footer__wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 28px;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 999px;
+  font: 500 14px/1.3 var(--sans);
+  transition: background .18s ease;
+}
+
+.footer__wa:hover { background: #3a3a3a; color: #fff; }
+
+.footer__mail {
+  display: inline-block;
+  margin-top: 16px;
+  font: 400 14px/1.4 var(--sans);
+  color: var(--grey-6);
+  word-break: break-all;
+  border-bottom: 1px solid rgba(17, 17, 17, .18);
+  transition: color .18s ease, border-color .18s ease;
+}
+
+.footer__mail:hover { color: var(--ink); border-color: var(--ink); }
+
+.footer__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font: 400 13px/1.6 var(--sans);
+  color: var(--grey-6);
+}
+
+.footer__meta a { color: var(--grey-6); }
+
+/* Nombre gigante al pie, como el cierre de Kommakomma. "TATI ORQUERA" en
+   Archivo 125% mide ~9,25 em: el tamaño sale del ancho útil para que llene
+   la línea sin cortarse a los costados. Abajo se recorta a propósito. */
+.footer { overflow: hidden; }
+
+.footer__big {
+  margin: clamp(48px, 8vw, 96px) 0 calc(clamp(40px, 6vw, 56px) * -1 - .12em);
+  font-family: var(--display);
+  font-weight: 700;
+  font-stretch: 125%;
+  font-size: calc((100vw - 2 * var(--gutter)) / 9.4);
+  line-height: .9;
+  letter-spacing: -.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--ink);
+}
+
+/* ==========================================================================
+   SCROLL REVEAL
+   ========================================================================== */
+
+/* La clase .js-reveal la pone el JS. Sin JS, sin IntersectionObserver o con
+   movimiento reducido nunca llega a aplicarse, y el contenido se ve tal cual:
+   el estado oculto solo existe si hay algo que pueda revertirlo. */
+.js-reveal [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition:
+    opacity .7s var(--ease-out) var(--reveal-delay, 0ms),
+    transform .7s var(--ease-out) var(--reveal-delay, 0ms);
+}
+
+.js-reveal [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ==========================================================================
+   MOTION PREFERENCES
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  .logos__track { animation: none; }
+
+  *, *::before, *::after {
+    transition-duration: .01ms !important;
+  }
+}
