@@ -19,46 +19,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Ephesis&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=10">
+<link rel="stylesheet" href="styles.css?v=11">
 <!-- Estética "media kit" (t_162ee374): mármol, marrones y script. Capa
      aparte encima de styles.css, que sigue siendo la base. -->
-<link rel="stylesheet" href="media-kit.css?v=1">
+<link rel="stylesheet" href="media-kit.css?v=2">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23f1f0ee'/%3E%3Ctext x='200' y='228' text-anchor='middle' font-family='Helvetica,Arial,sans-serif' font-size='112' font-weight='700' fill='%23111111'%3ETO%3C/text%3E%3C/svg%3E">
 </head>
 <body>
-
-<!-- ================= NAV ================= -->
-<div class="nav">
-  <div class="nav__bar">
-    <a class="nav__logo" href="#top">Tati <span>Orquera</span></a>
-
-    <nav class="nav__links" aria-label="Navegación principal">
-      <a href="#sobre">Sobre mí</a>
-      <a href="#resultados">Resultados</a>
-      <a href="#portfolio">Portfolio</a>
-      <a href="#servicios">Lo que hago</a>
-      <a href="#proceso">Proceso</a>
-    </nav>
-
-    <!-- Los 4 CTAs de contacto van a WhatsApp. El numero y el texto prellenado
-         estan escritos en cada href: para cambiarlos, buscar "wa.me" en este
-         archivo (nav, panel mobile, hero y footer). -->
-    <a class="nav__cta" href="https://wa.me/5491126948688?text=Hola%20Tati!%20Vi%20tu%20portfolio%20y%20quiero%20contarte%20sobre%20mi%20marca." target="_blank" rel="noopener"><svg class="ico-wa" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.885 3.4"/></svg>Trabajemos juntos</a>
-
-    <button class="nav__burger" type="button" aria-label="Menú" aria-expanded="false" aria-controls="nav-panel">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-
-  <div class="nav__panel" id="nav-panel" hidden>
-    <a href="#sobre">Sobre mí</a>
-    <a href="#resultados">Resultados</a>
-    <a href="#portfolio">Portfolio</a>
-    <a href="#servicios">Lo que hago</a>
-    <a href="#proceso">Proceso</a>
-    <a class="nav__panel-cta" href="https://wa.me/5491126948688?text=Hola%20Tati!%20Vi%20tu%20portfolio%20y%20quiero%20contarte%20sobre%20mi%20marca." target="_blank" rel="noopener"><svg class="ico-wa" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.885 3.4"/></svg>Trabajemos juntos</a>
-  </div>
-</div>
 
 <!-- ================= HERO =================
      Estructura de la plantilla Kommakomma (maqueta A de t_5225a700): tres
@@ -400,7 +367,7 @@
        (Idea / Guion / Grabación / Edición / Entrega) era un subconjunto exacto
        de estos 7 pasos: le faltaban el 01 y el 02, justo los que separan a una
        creadora de una editora de video. Sale del .wrap para poder sangrar hasta
-       el borde derecho; el id se conserva para que el link del nav siga yendo
+       el borde derecho; el id se conserva para que los links a #proceso sigan yendo
        a algun lado.
 
        Track horizontal: el JS mide el ancho del riel, estira el contenedor esa
@@ -607,6 +574,6 @@
   <p class="footer__big" aria-hidden="true">Tatiana <span>Orquera</span></p>
 </footer>
 
-<script src="main.js?v=10"></script>
+<script src="main.js?v=11"></script>
 </body>
 </html>
