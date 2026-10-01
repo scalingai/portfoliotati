@@ -11,9 +11,9 @@
 		Referrer-Policy "strict-origin-when-cross-origin"
 	}
 
-	# Imagenes: una semana de cache. Si se cambia una, va con nombre nuevo
+	# Imagenes y videos: una semana de cache. Si se cambia uno, va con nombre nuevo
 	# (ej. tat-sobre-2.jpg) para que nadie siga viendo la vieja.
-	@assets path *.woff2 *.jpg *.png *.webp *.svg
+	@assets path *.woff2 *.jpg *.png *.webp *.svg *.mp4 *.webm
 	header @assets Cache-Control "public, max-age=604800"
 
 	# HTML, CSS y JS se revalidan siempre (con el ETag es un 304 barato).
