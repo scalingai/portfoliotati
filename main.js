@@ -70,6 +70,35 @@
     img.addEventListener('error', markEmpty);
   });
 
+  /* ------------------------------------------------- reels en movimiento */
+
+  // Cada miniatura reproduce en loop los primeros 3 s del reel, solo mientras
+  // está en pantalla. Sin atributo autoplay a propósito: con autoplay el
+  // navegador ignora preload="none" y baja los 11 videos al cargar la página.
+  // Acá cada uno se pide recién la primera vez que asoma, y se pausa al salir.
+  // muted + playsinline es lo que deja a iOS reproducirlo sin pantalla completa.
+  var reelVideos = document.querySelectorAll('.reel__video');
+
+  if (reelVideos.length && 'IntersectionObserver' in window && !reduceMotion) {
+    var reelIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var v = entry.target;
+        if (entry.isIntersecting) {
+          var p = v.play();
+          if (p && p.catch) p.catch(function () {});
+        } else {
+          v.pause();
+        }
+      });
+    }, { rootMargin: '100px 0px', threshold: 0.2 });
+
+    reelVideos.forEach(function (v) {
+      v.muted = true; // por si el navegador no tomó el atributo antes del play()
+      v.addEventListener('playing', function () { v.classList.add('is-playing'); });
+      reelIo.observe(v);
+    });
+  }
+
   /* -------------------------------------------------------- scroll reveal */
 
   // Cada bloque entra con un fade y un desplazamiento corto al asomar en

@@ -917,6 +917,22 @@ button { font-family: inherit; }
   display: block;
 }
 
+/* Los primeros 3 s del reel en loop, encima de la portada. Arranca invisible
+   y aparece recién cuando reproduce (main.js le pone .is-playing): sin JS,
+   con movimiento reducido o si el video no carga, queda la portada fija. */
+.reel__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity .3s ease;
+  pointer-events: none;
+}
+
+.reel__video.is-playing { opacity: 1; }
+
 /* Empty state — mirrors the design's unfilled image slot. It disappears the
    moment a real cover lands in assets/reels/ (see main.js). */
 .reel__frame--empty img { display: none; }
