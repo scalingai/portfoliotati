@@ -82,6 +82,15 @@ button { font-family: inherit; }
   font-stretch: 125%;
 }
 
+/* Ícono de WhatsApp de los botones (hero y pie): del tamaño y el color del
+   texto. Vivía con la barra de arriba, que en /nueva/ no está. */
+.ico-wa {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+  fill: currentColor;
+}
+
 /* ==========================================================================
    HERO
    ========================================================================== */
