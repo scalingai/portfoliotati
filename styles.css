@@ -634,6 +634,46 @@ button { font-family: inherit; }
 
 .sobre__p:last-of-type { margin-bottom: 0; }
 
+/* En mobile el "Hola, soy Tatiana." va adentro de la foto, abajo, sobre un
+   degradé oscuro, y la descripción sigue pegada sin la línea del pie de foto.
+   Aside y body pasan a display: contents para que el título comparta la celda
+   del retrato sin duplicarlo en el HTML. */
+@media (max-width: 860px) {
+  .sobre__grid {
+    grid-template-columns: minmax(0, 440px);
+    row-gap: 0;
+  }
+
+  .sobre__aside,
+  .sobre__body { display: contents; }
+
+  .portrait { grid-area: 1 / 1; }
+
+  .portrait::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 42%;
+    background: linear-gradient(to top, rgba(17, 17, 17, .66), rgba(17, 17, 17, 0));
+    pointer-events: none;
+  }
+
+  .portrait__caption { display: none; }
+
+  .sobre__hi {
+    grid-area: 1 / 1;
+    align-self: end;
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    padding: 0 22px 22px;
+    font-size: clamp(28px, 7.6vw, 40px);
+    color: #fff;
+  }
+
+  .sobre__lead { margin-top: 28px; }
+}
+
 /* 1px gaps show the container colour as hairlines between cells. */
 /* ==========================================================================
    LO QUE HAGO
