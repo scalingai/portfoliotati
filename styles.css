@@ -37,8 +37,6 @@
      En desktop manda el CTA (44px); en mobile, la hamburguesa (46px).
      El hero se sube exactamente esto, así arranca pegado al borde superior
      y la barra flota encima sin dejar una franja blanca. */
-  --nav-control-h: 44px;
-  --nav-h: calc(12px + 10px + var(--nav-control-h) + 10px + 2px);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -75,7 +73,6 @@ button { font-family: inherit; }
 
 /* Display type shares one recipe: Archivo at 125% width, tight tracking. */
 .hero__title,
-.nav__logo,
 .sobre__hi,
 .sec-head__title,
 .why__title,
@@ -85,151 +82,13 @@ button { font-family: inherit; }
   font-stretch: 125%;
 }
 
-/* ==========================================================================
-   NAV
-   ========================================================================== */
-
-.nav {
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  padding: 12px clamp(16px, 4vw, 32px) 0;
-}
-
-.nav__bar {
-  max-width: var(--wrap);
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 10px 10px 10px clamp(16px, 3vw, 22px);
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, .55);
-  background: linear-gradient(180deg, rgba(255, 255, 255, .66) 0%, rgba(255, 255, 255, .34) 100%);
-  backdrop-filter: blur(22px) saturate(185%);
-  -webkit-backdrop-filter: blur(22px) saturate(185%);
-  box-shadow:
-    0 10px 34px -12px rgba(17, 17, 17, .22),
-    inset 0 1px 0 rgba(255, 255, 255, .85),
-    inset 0 -1px 0 rgba(255, 255, 255, .35);
-}
-
-.nav__logo {
-  font-size: clamp(15px, 2.4vw, 19px);
-  line-height: 1;
-  letter-spacing: -.01em;
-  white-space: nowrap;
-}
-
-.nav__links {
-  display: flex;
-  align-items: center;
-  gap: clamp(14px, 2vw, 26px);
-  font: 400 13px/1 var(--sans);
-  color: var(--grey-5);
-}
-
-.nav__links a {
-  color: var(--grey-5);
-  padding: 6px 0;
-}
-
-.nav__cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  min-height: 44px;
-  padding: 0 22px;
-  background: var(--ink);
-  color: #fff;
-  border-radius: 999px;
-  font: 500 13px/1 var(--sans);
-  white-space: nowrap;
-  transition: background .18s ease;
-}
-
-.nav__cta:hover { background: #3a3a3a; color: #fff; }
-
+/* Ícono de WhatsApp de los botones (hero y pie): del tamaño y el color del
+   texto. Vivía con la barra de arriba, que en /nueva/ no está. */
 .ico-wa {
   width: 1.15em;
   height: 1.15em;
   flex: none;
   fill: currentColor;
-}
-
-.nav__burger {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-  width: 46px;
-  height: 46px;
-  padding: 0 12px;
-  border: none;
-  border-radius: 999px;
-  background: var(--ink);
-  cursor: pointer;
-}
-
-.nav__burger span {
-  display: block;
-  height: 1.5px;
-  background: #fff;
-  border-radius: 2px;
-}
-
-.nav__panel {
-  max-width: var(--wrap);
-  margin: 10px auto 0;
-  padding: 14px;
-  border-radius: 26px;
-  border: 1px solid rgba(255, 255, 255, .55);
-  background: linear-gradient(180deg, rgba(255, 255, 255, .86), rgba(255, 255, 255, .68));
-  backdrop-filter: blur(22px) saturate(185%);
-  -webkit-backdrop-filter: blur(22px) saturate(185%);
-  box-shadow: 0 18px 44px -18px rgba(17, 17, 17, .3);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.nav__panel[hidden] { display: none; }
-
-.nav__panel a {
-  display: flex;
-  align-items: center;
-  min-height: 48px;
-  padding: 0 14px;
-  border-radius: 16px;
-  font: 500 16px/1 var(--sans);
-  color: var(--ink);
-}
-
-.nav__panel a:active { background: rgba(17, 17, 17, .06); }
-
-.nav__panel .nav__panel-cta {
-  gap: 9px;
-  justify-content: center;
-  min-height: 50px;
-  margin-top: 6px;
-  border-radius: 999px;
-  background: var(--ink);
-  color: #fff;
-  font-size: 15px;
-}
-
-/* Prototype swaps desktop/mobile nav at matchMedia("(max-width: 860px)"). */
-@media (max-width: 860px) {
-  :root { --nav-control-h: 46px; }
-
-  .nav__links,
-  .nav__cta { display: none; }
-  .nav__burger { display: flex; }
-}
-
-@media (min-width: 861px) {
-  .nav__panel { display: none; }
 }
 
 /* ==========================================================================
@@ -242,8 +101,7 @@ button { font-family: inherit; }
   display: flex;
   align-items: flex-end;
   min-height: min(100vh, 900px);
-  margin-top: calc(var(--nav-h) * -1);
-  padding: calc(var(--nav-h) + clamp(28px, 5vw, 56px)) var(--gutter) clamp(20px, 3vw, 28px);
+  padding: clamp(28px, 5vw, 56px) var(--gutter) clamp(20px, 3vw, 28px);
   background: var(--sand);
   color: var(--ink);
 }

@@ -6,8 +6,10 @@ dependencias, sin framework. Implementado a partir del handoff de Claude Design
 
 ```
 index.html          Estructura y contenido
-styles.css          Todos los estilos
-main.js             Menú mobile, filtro del portfolio, track del proceso,
+styles.css          Estilos base
+media-kit.css       Estética "UGC media kit" (mármol, marrones, script) encima de
+                    styles.css
+main.js             Filtro del portfolio, track del proceso,
                     fondo WebGL del hero
 assets/
   tat-sobre-2.jpg   Retrato de la sección "Sobre mí"

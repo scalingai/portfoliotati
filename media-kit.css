@@ -47,7 +47,7 @@
   --script: "Ephesis", "Brush Script MT", cursive;
   --serif: "Cormorant Garamond", Georgia, serif;
 
-  --marble: url("../assets/marmol.webp");
+  --marble: url("assets/marmol.webp");
 
   /* Marco de iPhone: bisel, radio exterior y borde de titanio. */
   --bezel: clamp(5px, .55vw, 8px);

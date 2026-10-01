@@ -2,6 +2,11 @@
 # el proxy de EasyPanel (Traefik) por delante de este contenedor.
 :80 {
 	root * /srv
+	# La maqueta se vio en /nueva/ antes de pasar a la home (t_162ee374): el
+	# link pudo haberse compartido, asi que cualquier /nueva... va a la home.
+	redir /nueva / 301
+	redir /nueva/* / 301
+
 	file_server
 	encode zstd gzip
 
@@ -18,6 +23,6 @@
 
 	# HTML, CSS y JS se revalidan siempre (con el ETag es un 304 barato).
 	# Con una semana de cache el celu mezclaba el HTML nuevo con el CSS viejo.
-	@code path / /index.html /nueva/ /nueva/index.html *.css *.js
+	@code path / /index.html *.css *.js
 	header @code Cache-Control "no-cache"
 }
