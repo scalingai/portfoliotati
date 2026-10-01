@@ -10,8 +10,7 @@ styles.css          Todos los estilos
 main.js             Menú mobile, filtro del portfolio, track del proceso,
                     fondo WebGL del hero
 assets/
-  tat-sobre.webp    Retrato de la sección "Sobre mí"
-  tat-hero.webp     Retrato alternativo (sin usar — quedó del diseño original)
+  tat-sobre-2.jpg   Retrato de la sección "Sobre mí"
   reels/            Portadas de los reels — ver assets/reels/README.md
 tatiana-orquera-portfolio/   Bundle original de Claude Design (referencia)
 ```
