@@ -111,6 +111,7 @@
     stagger('.sobre__aside');
     stagger('.sobre__body > *', 40);
     stagger('.card', 70);
+    stagger('.tool', 60);
     stagger('.group__head');
     stagger('.reel', 70);
     stagger('.num', 70);

@@ -764,6 +764,66 @@ button { font-family: inherit; }
 }
 
 /* ==========================================================================
+   MIS HERRAMIENTAS
+   ========================================================================== */
+
+/* Mismo lenguaje que las tarjetas de "Lo que hago": celdas blancas separadas
+   por una línea de 1px. 5 en fila en escritorio, 2 en el celu (la quinta
+   ocupa el ancho entero para que no quede un hueco). */
+.herramientas {
+  padding: 0 var(--gutter) var(--section-y);
+  scroll-margin-top: 88px;
+}
+
+.tools {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--line);
+}
+
+.tool {
+  background: #fff;
+  padding: clamp(22px, 3vw, 32px) clamp(18px, 2.4vw, 26px) clamp(24px, 3vw, 34px);
+  transition: background .18s ease;
+}
+
+.tool:hover { background: var(--hover-bg); }
+
+.tool__icon {
+  display: block;
+  width: 30px;
+  height: 30px;
+  color: var(--ink);
+}
+
+.tool__name {
+  margin: 18px 0 8px;
+  font: 500 clamp(16px, 1.6vw, 18px)/1.25 var(--sans);
+}
+
+.tool__text {
+  margin: 0;
+  font: 400 14px/1.55 var(--sans);
+  color: var(--grey-5);
+}
+
+@media (max-width: 860px) {
+  .tools { grid-template-columns: repeat(2, 1fr); }
+  .tool:last-child { grid-column: 1 / -1; }
+}
+
+@media (max-width: 520px) {
+  .tool { padding: 20px 16px 22px; }
+  .tool__icon { width: 26px; height: 26px; }
+  .tool__name { margin-top: 14px; font-size: 15.5px; }
+  .tool__text { font-size: 13.5px; }
+}
+
+/* ==========================================================================
    PORTFOLIO
    ========================================================================== */
 
