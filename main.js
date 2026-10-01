@@ -1,46 +1,11 @@
 /* Tatiana Orquera — Portfolio
    Behaviour ported from the Claude Design prototype:
-   mobile menu, portfolio filter, and the WebGL hero backdrop. */
+   portfolio filter, and the WebGL hero backdrop. */
 
 (function () {
   'use strict';
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* ---------------------------------------------------------------- nav */
-
-  var burger = document.querySelector('.nav__burger');
-  var panel = document.getElementById('nav-panel');
-
-  function closeMenu() {
-    panel.hidden = true;
-    burger.setAttribute('aria-expanded', 'false');
-  }
-
-  if (burger && panel) {
-    burger.addEventListener('click', function () {
-      var open = burger.getAttribute('aria-expanded') === 'true';
-      panel.hidden = open;
-      burger.setAttribute('aria-expanded', String(!open));
-    });
-
-    panel.addEventListener('click', function (e) {
-      if (e.target.closest('a')) closeMenu();
-    });
-
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && !panel.hidden) {
-        closeMenu();
-        burger.focus();
-      }
-    });
-
-    // The prototype closes the menu whenever it crosses the desktop breakpoint.
-    var mq = window.matchMedia('(max-width: 860px)');
-    var onMq = function () { closeMenu(); };
-    if (mq.addEventListener) mq.addEventListener('change', onMq);
-    else mq.addListener(onMq);
-  }
 
   /* ---------------------------------------------------- portfolio filter */
 
@@ -309,8 +274,8 @@
         proceso.classList.add('proceso--pinned');
         stickyTop = Math.round((window.innerHeight - stageH) / 2);
         stage.style.top = stickyTop + 'px';
-        // Que el link del nav aterrice justo donde el pin arranca, o el riel
-        // ya empezaria corrido.
+        // Que un link a #proceso aterrice justo donde el pin arranca, o el
+        // riel ya empezaria corrido.
         proceso.style.scrollMarginTop = stickyTop + 'px';
         proceso.style.height = (stageH + travel) + 'px';
         viewport.scrollLeft = 0;
